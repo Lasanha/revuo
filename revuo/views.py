@@ -23,7 +23,10 @@ class Media(View):
     template_name = 'revuo/media.html'
 
     def get(self, request):
-        return render(request, self.template_name, {})
+        media_list = Item.objects.filter(category='V')
+        authorized = media_list.filter(authorized=True)
+        ordered = authorized.order_by('-created_at')[:10]
+        return render(request, self.template_name, {'media_list':ordered})
 
 
 class Publications(View):
@@ -44,4 +47,7 @@ class Blog(View):
     template_name = 'revuo/blog.html'
 
     def get(self, request):
-        return render(request, self.template_name, {})
+        post_list = Item.objects.filter(category='B')
+        authorized = post_list.filter(authorized=True)
+        ordered = authorized.order_by('-created_at')[:10]
+        return render(request, self.template_name, {'post_list':ordered})

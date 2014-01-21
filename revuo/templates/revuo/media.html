@@ -3,5 +3,9 @@
 {% block title %}Media{% endblock %}
 
 {% block page_body %}
-Page Body
+<ol name='media_list'>
+    {% for item in media_list %}
+        <li>{{ item.title }}</li>
+    {% endfor %}
+</ol>
 {% endblock %}

@@ -3,5 +3,9 @@
 {% block title %}Blog{% endblock %}
 
 {% block page_body %}
-Page Body
+<ol name='post_list'>
+    {% for item in post_list %}
+        <li>{{ item.title }}</li>
+    {% endfor %}
+</ol>
 {% endblock %}
