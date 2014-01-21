@@ -27,10 +27,10 @@ class PortalTest(LiveServerTestCase):
         """
         news page test at /news
         """
-        #create some news
+        # create some news
         for i in xrange(10):
             mommy.make(Item, category='N', authorized=True)
-        #then check the page
+        # then check the page
         self.browser.get(self.live_server_url + '/news')
         self.assertIn('News', self.browser.title)
         news_list = self.browser.find_element_by_tag_name('ol')
@@ -43,8 +43,16 @@ class PortalTest(LiveServerTestCase):
         """
         news page test at /media
         """
+        # create some media
+        for i in xrange(10):
+            mommy.make(Item, category='V', authorized=True)
+        # and check page
         self.browser.get(self.live_server_url + '/media')
         self.assertIn('Media', self.browser.title)
+        video_list = self.browser.find_element_by_tag_name('ol')
+        video_item = self.browser.find_element_by_tag_name('li')
+        self.assertIsNotNone(video_list)
+        self.assertIsNotNone(video_item)
 
 
     def test_publications_page(self):
@@ -59,8 +67,16 @@ class PortalTest(LiveServerTestCase):
         """
         news page test at /blog
         """
+        # create some media
+        for i in xrange(10):
+            mommy.make(Item, category='B', authorized=True)
+        # aaaand check page
         self.browser.get(self.live_server_url + '/blog')
         self.assertIn('Blog', self.browser.title)
+        posts_list = self.browser.find_element_by_tag_name('ol')
+        posts_item = self.browser.find_element_by_tag_name('li')
+        self.assertIsNotNone(posts_list)
+        self.assertIsNotNone(posts_item)
 
 
     def test_staff_page(self):
