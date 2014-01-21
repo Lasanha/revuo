@@ -18,5 +18,4 @@ class PortalTest(LiveServerTestCase):
         home page test at /
         """
         self.browser.get(self.live_server_url + '/')
-        title = self.browser.find_element_by_tag_name('title')
-        self.assertIn('Home', title.text)
+        self.assertIn('Home', self.browser.title)
