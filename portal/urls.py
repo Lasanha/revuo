@@ -3,10 +3,9 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'portal.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
+from revuo.urls import urlpatterns as revuo_patterns
 
+urlpatterns = patterns('',
+    url(r'', include(revuo_patterns)),
     url(r'^admin/', include(admin.site.urls)),
 )
