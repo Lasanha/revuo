@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 class Author(models.Model):
     user = models.OneToOneField(User)
+    editor = models.BooleanField(default=False)
 
     def __unicode__(self):
         return ' '.join([self.user.first_name, self.user.last_name])
