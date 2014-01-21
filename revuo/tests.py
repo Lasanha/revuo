@@ -1,5 +1,7 @@
 from django.test import LiveServerTestCase, TestCase
 from selenium import webdriver
+from model_mommy import mommy
+from models import Author
 
 
 class PortalTest(LiveServerTestCase):
@@ -61,5 +63,15 @@ class PortalTest(LiveServerTestCase):
         self.assertIn('Staff', self.browser.title)
 
 
+class BackendTest(TestCase):
 
-
+    def test_author_model(self):
+        """
+        author model test
+        """
+        author = mommy.make(Author)
+        self.assertTrue(isinstance(author, Author))
+        self.assertEqual(
+            author.__unicode__(), 
+            ' '.join([author.user.first_name, author.user.last_name])
+            )
