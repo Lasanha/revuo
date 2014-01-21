@@ -9,13 +9,6 @@ class Author(models.Model):
         return ' '.join([self.user.first_name, self.user.last_name])
 
 
-class Editor(models.Model):
-    user = models.OneToOneField(User)
-
-    def __unicode__(self):
-        return ' '.join([self.user.first_name, self.user.last_name])
-
-
 class Admin(models.Model):
     user = models.OneToOneField(User)
 
