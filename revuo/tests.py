@@ -1,7 +1,7 @@
 from django.test import LiveServerTestCase, TestCase
 from selenium import webdriver
 from model_mommy import mommy
-from models import Author
+from models import Author, Editor, Admin
 
 
 class PortalTest(LiveServerTestCase):
@@ -74,4 +74,28 @@ class BackendTest(TestCase):
         self.assertEqual(
             author.__unicode__(), 
             ' '.join([author.user.first_name, author.user.last_name])
+            )
+
+
+    def test_editor_model(self):
+        """
+        editor model test
+        """
+        editor = mommy.make(Editor)
+        self.assertTrue(isinstance(editor, Editor))
+        self.assertEqual(
+            editor.__unicode__(), 
+            ' '.join([editor.user.first_name, editor.user.last_name])
+            )
+
+
+    def test_admin_model(self):
+        """
+        admin model test
+        """
+        admin = mommy.make(Admin)
+        self.assertTrue(isinstance(admin, Admin))
+        self.assertEqual(
+            admin.__unicode__(), 
+            ' '.join([admin.user.first_name, admin.user.last_name])
             )
