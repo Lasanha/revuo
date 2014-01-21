@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'revuo',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -74,11 +75,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-#heroku instructions
-import dj_database_url
-DATABASES['default'] = dj_database_url.config()
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
