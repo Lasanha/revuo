@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.base import View
+from models import Item
 
 class Home(View):
     template_name = 'revuo/home.html'
@@ -12,7 +13,10 @@ class News(View):
     template_name = 'revuo/news.html'
 
     def get(self, request):
-        return render(request, self.template_name, {})
+        news_list = Item.objects.filter(category='N')
+        authorized = news_list.filter(authorized=True)
+        ordered = authorized.order_by('-created_at')[:10]
+        return render(request, self.template_name, {'news_list':ordered})
 
 
 class Media(View):

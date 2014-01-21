@@ -3,5 +3,9 @@
 {% block title %}News{% endblock %}
 
 {% block page_body %}
-Page Body
+<ol name='news_list'>
+    {% for item in news_list %}
+        <li>{{ item.title }}</li>
+    {% endfor %}
+</ol>
 {% endblock %}
