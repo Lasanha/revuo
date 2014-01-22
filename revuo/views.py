@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import View
 from models import Item, Author, Publication
 
@@ -18,6 +18,14 @@ class News(View):
         authorized = news_list.filter(authorized=True)
         ordered = authorized.order_by('-created_at')[:10]
         return render(request, self.template_name, {'news_list':ordered})
+
+
+class NewsItem(View):
+    template_name = 'revuo/news_item.html'
+
+    def get(self, request, news_id):
+        news_item = get_object_or_404(Item, id=news_id, authorized=True)
+        return render(request, self.template_name, {'news_item':news_item})
 
 
 class Media(View):

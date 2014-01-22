@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import datetime
 
 
 class Author(models.Model):
@@ -41,7 +42,7 @@ class Item(models.Model):
 
 
 def publication_destination(instance, filename):
-    return str(hash(instance)) + filename
+    return 'documents/' + '_'.join([str(hash(datetime.datetime.now())),filename])
 
 
 class Publication(models.Model):

@@ -1,0 +1,10 @@
+{% extends "revuo/base.html" %}
+
+{% block title %}News - {{ news_item.title }} {% endblock %}
+
+{% block page_body %}
+{{ news_item.published_at }}
+{{ news_item.title }}
+{{ news_item.description }}
+{{ news_item.text }}
+{% endblock %}
