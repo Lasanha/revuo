@@ -37,6 +37,13 @@ class PortalTest(LiveServerTestCase):
         news_item = self.browser.find_element_by_tag_name('li')
         self.assertIsNotNone(news_list)
         self.assertIsNotNone(news_item)
+        # news view
+        news = mommy.make(Item, category='N', authorized=True)
+        self.browser.get(self.live_server_url + '/news/' + str(news.id))
+        self.assertIn(news.title, self.browser.title)
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn(news.description, body.text)
+        self.assertIn(news.text, body.text)
 
 
     def test_media_page(self):
