@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.base import View
-from models import Item, Author
+from models import Item, Author, Publication
+
 
 class Home(View):
     template_name = 'revuo/home.html'
@@ -33,7 +34,9 @@ class Publications(View):
     template_name = 'revuo/publications.html'
 
     def get(self, request):
-        return render(request, self.template_name, {})
+        authorized = Publication.objects.filter(authorized=True)
+        ordered = authorized.order_by('-created_at')[:10]
+        return render(request, self.template_name, {'pubs_list':ordered})
 
 
 class Staff(View):

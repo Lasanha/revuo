@@ -3,5 +3,9 @@
 {% block title %}Publications{% endblock %}
 
 {% block page_body %}
-Page Body
+<ol name='pubs_list'>
+    {% for pub in pubs_list %}
+        <li>{{ pub }}</li>
+    {% endfor %}
+</ol>
 {% endblock %}
