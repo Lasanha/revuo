@@ -1,7 +1,7 @@
 from django.test import LiveServerTestCase, TestCase
 from selenium import webdriver
 from model_mommy import mommy
-from models import Author, Admin, Item
+from models import Author, Admin, Item, Publication
 
 
 class PortalTest(LiveServerTestCase):
@@ -59,8 +59,16 @@ class PortalTest(LiveServerTestCase):
         """
         news page test at /publications
         """
+        # create publications
+        for i in xrange(10):
+            mommy.make(Publication, authorized=True)
+        # check page
         self.browser.get(self.live_server_url + '/publications')
         self.assertIn('Publications', self.browser.title)
+        pubs_list = self.browser.find_element_by_name('pubs_list')
+        pubs_item = self.browser.find_element_by_tag_name('li')
+        self.assertIsNotNone(pubs_list)
+        self.assertIsNotNone(pubs_item)
 
 
     def test_blog_page(self):
