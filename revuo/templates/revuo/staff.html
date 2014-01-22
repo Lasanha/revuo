@@ -3,5 +3,9 @@
 {% block title %}Staff{% endblock %}
 
 {% block page_body %}
-Page Body
+<ul name='authors_list'>
+    {% for author in authors_list %}
+        <li>{{ author }}</li>
+    {% endfor %}
+</ul>
 {% endblock %}

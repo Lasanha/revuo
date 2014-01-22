@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.base import View
-from models import Item
+from models import Item, Author
 
 class Home(View):
     template_name = 'revuo/home.html'
@@ -40,7 +40,8 @@ class Staff(View):
     template_name = 'revuo/staff.html'
 
     def get(self, request):
-        return render(request, self.template_name, {})
+        authors_list = Author.objects.all()
+        return render(request, self.template_name, {'authors_list':authors_list})
 
 
 class Blog(View):
