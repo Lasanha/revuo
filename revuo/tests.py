@@ -33,7 +33,7 @@ class PortalTest(LiveServerTestCase):
         # then check the page
         self.browser.get(self.live_server_url + '/news')
         self.assertIn('News', self.browser.title)
-        news_list = self.browser.find_element_by_tag_name('ol')
+        news_list = self.browser.find_element_by_name('news_list')
         news_item = self.browser.find_element_by_tag_name('li')
         self.assertIsNotNone(news_list)
         self.assertIsNotNone(news_item)
@@ -49,7 +49,7 @@ class PortalTest(LiveServerTestCase):
         # and check page
         self.browser.get(self.live_server_url + '/media')
         self.assertIn('Media', self.browser.title)
-        video_list = self.browser.find_element_by_tag_name('ol')
+        video_list = self.browser.find_element_by_name('media_list')
         video_item = self.browser.find_element_by_tag_name('li')
         self.assertIsNotNone(video_list)
         self.assertIsNotNone(video_item)
@@ -73,7 +73,7 @@ class PortalTest(LiveServerTestCase):
         # aaaand check page
         self.browser.get(self.live_server_url + '/blog')
         self.assertIn('Blog', self.browser.title)
-        posts_list = self.browser.find_element_by_tag_name('ol')
+        posts_list = self.browser.find_element_by_name('post_list')
         posts_item = self.browser.find_element_by_tag_name('li')
         self.assertIsNotNone(posts_list)
         self.assertIsNotNone(posts_item)
