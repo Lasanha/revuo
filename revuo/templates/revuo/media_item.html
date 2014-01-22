@@ -1,0 +1,10 @@
+{% extends "revuo/base.html" %}
+
+{% block title %}Media - {{ media_item.title }} {% endblock %}
+
+{% block page_body %}
+{{ media_item.published_at }}
+{{ media_item.title }}
+{{ media_item.description }}
+{{ media_item.text }}
+{% endblock %}
