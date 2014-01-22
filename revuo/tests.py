@@ -83,8 +83,16 @@ class PortalTest(LiveServerTestCase):
         """
         news page test at /staff
         """
+        # create some users
+        for i in xrange(10):
+            mommy.make(Author)
+        # aaaand check page
         self.browser.get(self.live_server_url + '/staff')
         self.assertIn('Staff', self.browser.title)
+        authors_list = self.browser.find_element_by_name('authors_list')
+        authors_item = self.browser.find_element_by_tag_name('li')
+        self.assertIsNotNone(authors_list)
+        self.assertIsNotNone(authors_item)
 
 
 class BackendTest(TestCase):
