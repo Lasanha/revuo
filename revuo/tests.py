@@ -60,6 +60,12 @@ class PortalTest(LiveServerTestCase):
         video_item = self.browser.find_element_by_tag_name('li')
         self.assertIsNotNone(video_list)
         self.assertIsNotNone(video_item)
+        # media view
+        media = mommy.make(Item, category='V', authorized=True)
+        self.browser.get(self.live_server_url + '/media/' + str(media.id))
+        self.assertIn(media.title, self.browser.title)
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn(media.description, body.text)
 
 
     def test_publications_page(self):
@@ -92,6 +98,13 @@ class PortalTest(LiveServerTestCase):
         posts_item = self.browser.find_element_by_tag_name('li')
         self.assertIsNotNone(posts_list)
         self.assertIsNotNone(posts_item)
+        # post view
+        post = mommy.make(Item, category='B', authorized=True)
+        self.browser.get(self.live_server_url + '/blog/' + str(post.id))
+        self.assertIn(post.title, self.browser.title)
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn(post.description, body.text)
+        self.assertIn(post.text, body.text)
 
 
     def test_staff_page(self):
