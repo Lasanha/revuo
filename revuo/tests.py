@@ -2,6 +2,7 @@ from django.test import LiveServerTestCase, TestCase
 from selenium import webdriver
 from model_mommy import mommy
 from models import Author, Admin, Item, Publication
+from django.contrib.auth.models import User
 
 
 class PortalTest(LiveServerTestCase):
@@ -121,6 +122,13 @@ class PortalTest(LiveServerTestCase):
         authors_item = self.browser.find_element_by_tag_name('li')
         self.assertIsNotNone(authors_list)
         self.assertIsNotNone(authors_item)
+        # post view
+        user = mommy.make(User, first_name='John')
+        author = mommy.make(Author, user=user)
+        self.browser.get(self.live_server_url + '/staff/' + str(author.id))
+        self.assertIn(author.user.first_name, self.browser.title)
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn(author.about, body.text)
 
 
 class BackendTest(TestCase):
