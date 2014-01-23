@@ -10,40 +10,23 @@ class Home(View):
         return render(request, self.template_name, {})
 
 
-class News(View):
-    template_name = 'revuo/news.html'
+class ItemList(View):
+    categories = {'news': 'N', 'media': 'V', 'blog': 'B'}
 
-    def get(self, request):
-        news_list = Item.objects.filter(category='N')
-        authorized = news_list.filter(authorized=True)
+    def get(self, request, category):
+        item_list = Item.objects.filter(category=self.categories[category])
+        authorized = item_list.filter(authorized=True)
         ordered = authorized.order_by('-created_at')[:10]
-        return render(request, self.template_name, {'news_list':ordered})
+        template = 'revuo/{}.html'.format(category)
+        return render(request, template, {'items_list':ordered})
 
 
-class NewsItem(View):
-    template_name = 'revuo/news_item.html'
+class ItemView(View):
 
-    def get(self, request, news_id):
-        news_item = get_object_or_404(Item, id=news_id, authorized=True)
-        return render(request, self.template_name, {'news_item':news_item})
-
-
-class Media(View):
-    template_name = 'revuo/media.html'
-
-    def get(self, request):
-        media_list = Item.objects.filter(category='V')
-        authorized = media_list.filter(authorized=True)
-        ordered = authorized.order_by('-created_at')[:10]
-        return render(request, self.template_name, {'media_list':ordered})
-
-
-class MediaItem(View):
-    template_name = 'revuo/media_item.html'
-
-    def get(self, request, media_id):
-        media_item = get_object_or_404(Item, id=media_id, authorized=True)
-        return render(request, self.template_name, {'media_item':media_item})
+    def get(self, request, category, item_id):
+        item = get_object_or_404(Item, category=category, id=item_id, authorized=True)
+        template = 'revuo/{}_item.html'.format(category)
+        return render(request, template, {'item':item})
 
 
 class Publications(View):
@@ -61,21 +44,3 @@ class Staff(View):
     def get(self, request):
         authors_list = Author.objects.all()
         return render(request, self.template_name, {'authors_list':authors_list})
-
-
-class Blog(View):
-    template_name = 'revuo/blog.html'
-
-    def get(self, request):
-        post_list = Item.objects.filter(category='B')
-        authorized = post_list.filter(authorized=True)
-        ordered = authorized.order_by('-created_at')[:10]
-        return render(request, self.template_name, {'post_list':ordered})
-
-
-class BlogItem(View):
-    template_name = 'revuo/blog_item.html'
-
-    def get(self, request, post_id):
-        blog_item = get_object_or_404(Item, id=post_id, authorized=True)
-        return render(request, self.template_name, {'blog_item':blog_item})

@@ -4,8 +4,8 @@
 
 {% block page_body %}
 <ol name='post_list'>
-    {% for item in post_list %}
-        <li>{{ item.title }}</li>
+    {% for post in items_list %}
+        <li>{{ post.title }}</li>
     {% endfor %}
 </ol>
 {% endblock %}

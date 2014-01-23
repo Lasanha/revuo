@@ -4,8 +4,8 @@
 
 {% block page_body %}
 <ol name='news_list'>
-    {% for item in news_list %}
-        <li>{{ item.title }}</li>
+    {% for news in items_list %}
+        <li>{{ news.title }}</li>
     {% endfor %}
 </ol>
 {% endblock %}

@@ -1,10 +1,10 @@
 {% extends "revuo/base.html" %}
 
-{% block title %}Blog - {{ blog_item.title }} {% endblock %}
+{% block title %}Blog - {{ item.title }} {% endblock %}
 
 {% block page_body %}
-{{ blog_item.published_at }}
-{{ blog_item.title }}
-{{ blog_item.description }}
-{{ blog_item.text }}
+{{ item.published_at }}
+{{ item.title }}
+{{ item.description }}
+{{ item.text }}
 {% endblock %}
