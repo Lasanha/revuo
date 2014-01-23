@@ -6,6 +6,7 @@ import datetime
 class Author(models.Model):
     user = models.OneToOneField(User)
     editor = models.BooleanField(default=False)
+    about = models.TextField(max_length=1024)
 
 
     def __unicode__(self):

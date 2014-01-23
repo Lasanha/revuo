@@ -44,3 +44,11 @@ class Staff(View):
     def get(self, request):
         authors_list = Author.objects.all()
         return render(request, self.template_name, {'authors_list':authors_list})
+
+
+class StaffView(View):
+    template_name = 'revuo/staff_view.html'
+
+    def get(self, request, staff_id):
+        author = get_object_or_404(Author, id=staff_id)
+        return render(request, self.template_name, {'author':author})

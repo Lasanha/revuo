@@ -1,0 +1,9 @@
+{% extends "revuo/base.html" %}
+
+{% block title %}Staff - {{ author.user.first_name }} {% endblock %}
+
+{% block page_body %}
+{{ author.user.first_name }}
+{{ author.user.last_name }}
+{{ author.about }}
+{% endblock %}
