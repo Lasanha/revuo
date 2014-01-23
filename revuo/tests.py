@@ -39,7 +39,7 @@ class PortalTest(LiveServerTestCase):
         self.assertIsNotNone(news_item)
         # news view
         news = mommy.make(Item, category='N', authorized=True)
-        self.browser.get(self.live_server_url + '/news/' + str(news.id))
+        self.browser.get(self.live_server_url + '/N/' + str(news.id))
         self.assertIn(news.title, self.browser.title)
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn(news.description, body.text)
@@ -62,7 +62,7 @@ class PortalTest(LiveServerTestCase):
         self.assertIsNotNone(video_item)
         # media view
         media = mommy.make(Item, category='V', authorized=True)
-        self.browser.get(self.live_server_url + '/media/' + str(media.id))
+        self.browser.get(self.live_server_url + '/V/' + str(media.id))
         self.assertIn(media.title, self.browser.title)
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn(media.description, body.text)
@@ -100,7 +100,7 @@ class PortalTest(LiveServerTestCase):
         self.assertIsNotNone(posts_item)
         # post view
         post = mommy.make(Item, category='B', authorized=True)
-        self.browser.get(self.live_server_url + '/blog/' + str(post.id))
+        self.browser.get(self.live_server_url + '/B/' + str(post.id))
         self.assertIn(post.title, self.browser.title)
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn(post.description, body.text)
