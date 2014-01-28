@@ -131,6 +131,15 @@ class PortalTest(LiveServerTestCase):
         self.assertIn(author.about, body.text)
 
 
+    def test_login_page(self):
+        """
+        login page test at /login
+        """
+        self.browser.get(self.live_server_url + '/login')
+        self.assertIn('Login', self.browser.title)
+
+
+
 class BackendTest(TestCase):
 
     def test_author_model(self):
