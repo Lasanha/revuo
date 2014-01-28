@@ -137,7 +137,19 @@ class PortalTest(LiveServerTestCase):
         """
         self.browser.get(self.live_server_url + '/login')
         self.assertIn('Login', self.browser.title)
-
+        # create an author for login
+        user = mommy.make(User, username='john')
+        user.set_password('foopass')
+        user.save()
+        author = mommy.make(Author, user=user)
+        # enter credentials
+        user_field = self.browser.find_element_by_name('username')
+        user_field.send_keys(user.username)
+        pass_field = self.browser.find_element_by_name('password')
+        pass_field.send_keys('foopass')
+        pass_field.submit()
+        # should redirect to home
+        self.assertIn('Home', self.browser.title)
 
 
 class BackendTest(TestCase):
