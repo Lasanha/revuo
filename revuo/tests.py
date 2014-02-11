@@ -6,10 +6,17 @@ from django.contrib.auth.models import User
 
 
 class PortalTest(LiveServerTestCase):
+    username = 'john'
+    userpass = 'foopas'
 
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
+        # create an author for restricted tests
+        user = mommy.make(User, username=self.username)
+        user.set_password(self.userpass)
+        user.save()
+        self.author = mommy.make(Author, user=user)
 
 
     def tearDown(self):
@@ -137,16 +144,11 @@ class PortalTest(LiveServerTestCase):
         """
         self.browser.get(self.live_server_url + '/login')
         self.assertIn('Login', self.browser.title)
-        # create an author for login
-        user = mommy.make(User, username='john')
-        user.set_password('foopass')
-        user.save()
-        author = mommy.make(Author, user=user)
         # enter credentials
         user_field = self.browser.find_element_by_name('username')
-        user_field.send_keys(user.username)
+        user_field.send_keys(self.username)
         pass_field = self.browser.find_element_by_name('password')
-        pass_field.send_keys('foopass')
+        pass_field.send_keys(self.userpass)
         pass_field.submit()
         # should redirect to home
         self.assertIn('Home', self.browser.title)
