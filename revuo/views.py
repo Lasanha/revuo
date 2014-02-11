@@ -1,6 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.decorators import method_decorator
+from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
 from django.views.generic.base import View
-from models import Item, Author, Publication
+from models import NewsItem, VideoItem, BlogItem, Author, Publication
+from forms import FormNewsItem, FormVideoItem, FormBlogItem
 
 
 class Home(View):
@@ -11,20 +15,22 @@ class Home(View):
 
 
 class ItemList(View):
-    categories = {'news': 'N', 'media': 'V', 'blog': 'B'}
+    categories = {'news': NewsItem, 'media': VideoItem, 'blog': BlogItem}
 
     def get(self, request, category):
-        item_list = Item.objects.filter(category=self.categories[category])
-        authorized = item_list.filter(authorized=True)
-        ordered = authorized.order_by('-created_at')[:10]
+        Item = self.categories[category]
+        item_list = Item.objects.filter(authorized=True)
+        ordered = item_list.order_by('-created_at')[:10]
         template = 'revuo/{}.html'.format(category)
         return render(request, template, {'items_list':ordered})
 
 
 class ItemView(View):
+    categories = {'N': NewsItem, 'V': VideoItem, 'B': BlogItem}
 
     def get(self, request, category, item_id):
-        item = get_object_or_404(Item, category=category, id=item_id, authorized=True)
+        Item = self.categories[category]
+        item = get_object_or_404(Item, id=item_id, authorized=True)
         template = 'revuo/{}_item.html'.format(category)
         return render(request, template, {'item':item})
 
@@ -52,3 +58,36 @@ class StaffView(View):
     def get(self, request, staff_id):
         author = get_object_or_404(Author, id=staff_id)
         return render(request, self.template_name, {'author':author})
+
+
+# ===========================
+# logged actions
+# ===========================
+
+
+class NewItem(View):
+    template_name = 'revuo/new_item.html'
+    categories = {'N': FormNewsItem, 'V': FormVideoItem, 'B': FormBlogItem}
+
+    @method_decorator(login_required)
+    def get(self, request, category):
+        FormItem = self.categories[category]
+        form = FormItem()
+        return render(request, self.template_name, {'form': form},
+            context_instance=RequestContext(request))
+
+
+    @method_decorator(login_required)
+    def post(self, request, category):
+        FormItem = self.categories[category]
+        form = FormItem(request.POST, request.FILES)
+        if form.is_valid():
+            item = form.instance
+            author = Author.objects.get(user=request.user)
+            item.author = author
+            item.authorized = True
+            item.save()
+            print item
+            return redirect('/')
+        return render(request, self.template_name, {'form': form},
+            context_instance=RequestContext(request))
