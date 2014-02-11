@@ -1,7 +1,7 @@
 from django.test import LiveServerTestCase, TestCase
 from selenium import webdriver
 from model_mommy import mommy
-from models import Author, Admin, Item, Publication
+from models import Author, Admin, NewsItem, BlogItem, VideoItem, Publication
 from django.contrib.auth.models import User
 
 
@@ -30,7 +30,7 @@ class PortalTest(LiveServerTestCase):
         """
         # create some news
         for i in xrange(10):
-            mommy.make(Item, category='N', authorized=True)
+            mommy.make(NewsItem, authorized=True)
         # then check the page
         self.browser.get(self.live_server_url + '/news')
         self.assertIn('News', self.browser.title)
@@ -39,7 +39,7 @@ class PortalTest(LiveServerTestCase):
         self.assertIsNotNone(news_list)
         self.assertIsNotNone(news_item)
         # news view
-        news = mommy.make(Item, category='N', authorized=True)
+        news = mommy.make(NewsItem, authorized=True)
         self.browser.get(self.live_server_url + '/N/' + str(news.id))
         self.assertIn(news.title, self.browser.title)
         body = self.browser.find_element_by_tag_name('body')
@@ -53,7 +53,7 @@ class PortalTest(LiveServerTestCase):
         """
         # create some media
         for i in xrange(10):
-            mommy.make(Item, category='V', authorized=True)
+            mommy.make(VideoItem, authorized=True)
         # and check page
         self.browser.get(self.live_server_url + '/media')
         self.assertIn('Media', self.browser.title)
@@ -62,11 +62,11 @@ class PortalTest(LiveServerTestCase):
         self.assertIsNotNone(video_list)
         self.assertIsNotNone(video_item)
         # media view
-        media = mommy.make(Item, category='V', authorized=True)
+        media = mommy.make(VideoItem, authorized=True)
         self.browser.get(self.live_server_url + '/V/' + str(media.id))
         self.assertIn(media.title, self.browser.title)
         body = self.browser.find_element_by_tag_name('body')
-        self.assertIn(media.description, body.text)
+        self.assertIn(media.text, body.text)
 
 
     def test_publications_page(self):
@@ -91,7 +91,7 @@ class PortalTest(LiveServerTestCase):
         """
         # create some media
         for i in xrange(10):
-            mommy.make(Item, category='B', authorized=True)
+            mommy.make(BlogItem, authorized=True)
         # aaaand check page
         self.browser.get(self.live_server_url + '/blog')
         self.assertIn('Blog', self.browser.title)
@@ -100,7 +100,7 @@ class PortalTest(LiveServerTestCase):
         self.assertIsNotNone(posts_list)
         self.assertIsNotNone(posts_item)
         # post view
-        post = mommy.make(Item, category='B', authorized=True)
+        post = mommy.make(BlogItem, authorized=True)
         self.browser.get(self.live_server_url + '/B/' + str(post.id))
         self.assertIn(post.title, self.browser.title)
         body = self.browser.find_element_by_tag_name('body')
@@ -178,10 +178,16 @@ class BackendTest(TestCase):
             )
 
 
-    def test_item_model(self):
+    def test_items_model(self):
         """
         item model test
         """
-        item = mommy.make(Item)
-        self.assertTrue(isinstance(item, Item))
+        item = mommy.make(NewsItem)
+        self.assertTrue(isinstance(item, NewsItem))
+        self.assertTrue(isinstance(item.author, Author))
+        item = mommy.make(BlogItem)
+        self.assertTrue(isinstance(item, BlogItem))
+        self.assertTrue(isinstance(item.author, Author))
+        item = mommy.make(VideoItem)
+        self.assertTrue(isinstance(item, VideoItem))
         self.assertTrue(isinstance(item.author, Author))
