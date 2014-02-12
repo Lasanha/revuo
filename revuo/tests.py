@@ -3,6 +3,7 @@ from selenium import webdriver
 from model_mommy import mommy
 from models import Author, Admin, NewsItem, BlogItem, VideoItem, Publication
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
 
 class PortalTest(LiveServerTestCase):
@@ -13,10 +14,10 @@ class PortalTest(LiveServerTestCase):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
         # create an author for restricted tests
-        user = mommy.make(User, username=self.username)
+        user = mommy.make(User, username=self.username, first_name='John')
         user.set_password(self.userpass)
         user.save()
-        self.author = mommy.make(Author, user=user)
+        author = mommy.make(Author, user=user)
 
 
     def tearDown(self):
@@ -52,6 +53,27 @@ class PortalTest(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn(news.description, body.text)
         self.assertIn(news.text, body.text)
+        # create a new one via form
+        # enter credentials
+        self.browser.get(self.live_server_url + '/login')
+        user_field = self.browser.find_element_by_name('username')
+        user_field.send_keys(self.username)
+        pass_field = self.browser.find_element_by_name('password')
+        pass_field.send_keys(self.userpass)
+        pass_field.submit()
+        # go to form
+        self.browser.get(self.live_server_url + '/restricted/N/add')
+        title_field = self.browser.find_element_by_name('title')
+        title_field.send_keys('news item')
+        desc_field = self.browser.find_element_by_name('description')
+        desc_field.send_keys('news description')
+        text_field = self.browser.find_element_by_name('text')
+        text_field.send_keys('news text body')
+        text_field.submit()
+        # go to news list and look for the title
+        self.browser.get(self.live_server_url + '/news')
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn('news item', body.text)
 
 
     def test_media_page(self):
