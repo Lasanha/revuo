@@ -17,7 +17,7 @@ class PortalTest(LiveServerTestCase):
         user = mommy.make(User, username=self.username, first_name='John')
         user.set_password(self.userpass)
         user.save()
-        author = mommy.make(Author, user=user)
+        self.author = mommy.make(Author, user=user)
 
 
     def tearDown(self):
@@ -113,7 +113,7 @@ class PortalTest(LiveServerTestCase):
         text_field = self.browser.find_element_by_name('text')
         text_field.send_keys('video text body')
         text_field.submit()
-        # go to news list and look for the title
+        # go to video list and look for the title
         self.browser.get(self.live_server_url + '/media')
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('video item', body.text)
@@ -173,7 +173,7 @@ class PortalTest(LiveServerTestCase):
         text_field = self.browser.find_element_by_name('text')
         text_field.send_keys('blog text body')
         text_field.submit()
-        # go to news list and look for the title
+        # go to blog list and look for the title
         self.browser.get(self.live_server_url + '/blog')
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('blog item', body.text)
@@ -193,13 +193,27 @@ class PortalTest(LiveServerTestCase):
         authors_item = self.browser.find_element_by_tag_name('li')
         self.assertIsNotNone(authors_list)
         self.assertIsNotNone(authors_item)
-        # post view
-        user = mommy.make(User, first_name='John')
-        author = mommy.make(Author, user=user)
-        self.browser.get(self.live_server_url + '/staff/' + str(author.id))
-        self.assertIn(author.user.first_name, self.browser.title)
+        # staff view
+        self.browser.get(self.live_server_url + '/staff/' + str(self.author.id))
+        self.assertIn(self.author.user.first_name, self.browser.title)
         body = self.browser.find_element_by_tag_name('body')
-        self.assertIn(author.about, body.text)
+        self.assertIn(self.author.about, body.text)
+        # enter credentials
+        self.browser.get(self.live_server_url + '/login')
+        user_field = self.browser.find_element_by_name('username')
+        user_field.send_keys(self.username)
+        pass_field = self.browser.find_element_by_name('password')
+        pass_field.send_keys(self.userpass)
+        pass_field.submit()
+        # go to form
+        self.browser.get(self.live_server_url + '/restricted/editprofile')
+        about_field = self.browser.find_element_by_name('about')
+        about_field.send_keys('new about')
+        about_field.submit()
+        # go to staff view and look for new about
+        self.browser.get(self.live_server_url + '/staff/' + str(self.author.id))
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn('new about', body.text)
 
 
     def test_login_page(self):
