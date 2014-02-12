@@ -87,7 +87,6 @@ class NewItem(View):
             item.author = author
             item.authorized = True
             item.save()
-            print item
             return redirect('/')
         return render(request, self.template_name, {'form': form},
             context_instance=RequestContext(request))
