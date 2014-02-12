@@ -214,6 +214,20 @@ class PortalTest(LiveServerTestCase):
         self.browser.get(self.live_server_url + '/staff/' + str(self.author.id))
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('new about', body.text)
+        # change password
+        self.browser.get(self.live_server_url + '/restricted/password/change')
+        curr_field = self.browser.find_element_by_name('old_password')
+        curr_field.send_keys(self.userpass)
+        new1_field = self.browser.find_element_by_name('new_password1')
+        new1_field.send_keys('newpasswd')
+        new2_field = self.browser.find_element_by_name('new_password2')
+        new2_field.send_keys('newpasswd')
+        new2_field.submit()
+        # try passwords
+        user_wrong = authenticate(username=self.username, password=self.userpass)
+        user_right = authenticate(username=self.username, password='newpasswd')
+        self.assertFalse(user_wrong)
+        self.assertTrue(user_right)
 
 
     def test_login_page(self):
