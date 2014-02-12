@@ -1,5 +1,5 @@
 from django import forms
-from models import NewsItem, BlogItem, VideoItem
+from models import NewsItem, BlogItem, VideoItem, Author
 
 
 class FormNewsItem(forms.ModelForm):
@@ -18,3 +18,9 @@ class FormBlogItem(forms.ModelForm):
     class Meta:
         model = BlogItem
         fields = ('title', 'text', 'description')
+
+
+class FormEditProfile(forms.ModelForm):
+    class Meta:
+        model = Author
+        fields = ('about',)

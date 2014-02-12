@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 
 from views import Home, Publications, Staff, StaffView
-from views import ItemList, ItemView, NewItem
+from views import ItemList, ItemView, NewItem, EditProfile
 
 urlpatterns = patterns('',
     url(r'^$', Home.as_view()),
@@ -11,4 +11,5 @@ urlpatterns = patterns('',
     url(r'^staff$', Staff.as_view()),
     url(r'^staff/(?P<staff_id>\d+)$', StaffView.as_view()),
     url(r'^restricted/(?P<category>[VNB])/add$', NewItem.as_view()),
+    url(r'^restricted/editprofile$', EditProfile.as_view()),
 )
