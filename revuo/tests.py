@@ -96,6 +96,27 @@ class PortalTest(LiveServerTestCase):
         self.assertIn(media.title, self.browser.title)
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn(media.text, body.text)
+        # create a new one via form
+        # enter credentials
+        self.browser.get(self.live_server_url + '/login')
+        user_field = self.browser.find_element_by_name('username')
+        user_field.send_keys(self.username)
+        pass_field = self.browser.find_element_by_name('password')
+        pass_field.send_keys(self.userpass)
+        pass_field.submit()
+        # go to form
+        self.browser.get(self.live_server_url + '/restricted/V/add')
+        title_field = self.browser.find_element_by_name('title')
+        title_field.send_keys('video item')
+        desc_field = self.browser.find_element_by_name('video')
+        desc_field.send_keys('http://example.org')
+        text_field = self.browser.find_element_by_name('text')
+        text_field.send_keys('video text body')
+        text_field.submit()
+        # go to news list and look for the title
+        self.browser.get(self.live_server_url + '/media')
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn('video item', body.text)
 
 
     def test_publications_page(self):
@@ -135,6 +156,27 @@ class PortalTest(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn(post.description, body.text)
         self.assertIn(post.text, body.text)
+        # create a new one via form
+        # enter credentials
+        self.browser.get(self.live_server_url + '/login')
+        user_field = self.browser.find_element_by_name('username')
+        user_field.send_keys(self.username)
+        pass_field = self.browser.find_element_by_name('password')
+        pass_field.send_keys(self.userpass)
+        pass_field.submit()
+        # go to form
+        self.browser.get(self.live_server_url + '/restricted/B/add')
+        title_field = self.browser.find_element_by_name('title')
+        title_field.send_keys('blog item')
+        desc_field = self.browser.find_element_by_name('description')
+        desc_field.send_keys('blog description')
+        text_field = self.browser.find_element_by_name('text')
+        text_field.send_keys('blog text body')
+        text_field.submit()
+        # go to news list and look for the title
+        self.browser.get(self.live_server_url + '/blog')
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn('blog item', body.text)
 
 
     def test_staff_page(self):
