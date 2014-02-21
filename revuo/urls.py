@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 
-from views import Home, Publications, Staff, StaffView
-from views import ItemList, ItemView, NewItem, EditProfile
+from revuo.views import Home, Publications, Staff, StaffView
+from revuo.views import ItemList, ItemView, NewItem, EditProfile
 
 urlpatterns = patterns('',
     url(r'^$', Home.as_view()),

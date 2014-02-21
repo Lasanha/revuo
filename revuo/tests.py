@@ -1,7 +1,7 @@
 from django.test import LiveServerTestCase, TestCase
 from selenium import webdriver
 from model_mommy import mommy
-from models import Author, Admin, NewsItem, BlogItem, VideoItem, Publication
+from revuo.models import Author, Admin, NewsItem, BlogItem, VideoItem, Publication
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 

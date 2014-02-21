@@ -1,5 +1,5 @@
 from django import forms
-from models import NewsItem, BlogItem, VideoItem, Author
+from revuo.models import NewsItem, BlogItem, VideoItem, Author
 
 
 class FormNewsItem(forms.ModelForm):

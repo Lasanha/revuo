@@ -3,8 +3,8 @@ from django.utils.decorators import method_decorator
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import View
-from models import NewsItem, VideoItem, BlogItem, Author, Publication
-from forms import FormNewsItem, FormVideoItem, FormBlogItem, FormEditProfile
+from revuo.models import NewsItem, VideoItem, BlogItem, Author, Publication
+from revuo.forms import FormNewsItem, FormVideoItem, FormBlogItem, FormEditProfile
 
 
 class Home(View):
