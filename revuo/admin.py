@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Author, NewsItem, BlogItem, VideoItem
+from revuo.models import Author, NewsItem, BlogItem, VideoItem
 
 admin.site.register(Author)
 admin.site.register(NewsItem)
