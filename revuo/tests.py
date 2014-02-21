@@ -37,7 +37,7 @@ class PortalTest(LiveServerTestCase):
         news page test at /news
         """
         # create some news
-        for i in xrange(10):
+        for i in range(10):
             mommy.make(NewsItem, authorized=True)
         # then check the page
         self.browser.get(self.live_server_url + '/news')
@@ -81,7 +81,7 @@ class PortalTest(LiveServerTestCase):
         news page test at /media
         """
         # create some media
-        for i in xrange(10):
+        for i in range(10):
             mommy.make(VideoItem, authorized=True)
         # and check page
         self.browser.get(self.live_server_url + '/media')
@@ -124,7 +124,7 @@ class PortalTest(LiveServerTestCase):
         news page test at /publications
         """
         # create publications
-        for i in xrange(10):
+        for i in range(10):
             mommy.make(Publication, authorized=True)
         # check page
         self.browser.get(self.live_server_url + '/publications')
@@ -140,7 +140,7 @@ class PortalTest(LiveServerTestCase):
         news page test at /blog
         """
         # create some media
-        for i in xrange(10):
+        for i in range(10):
             mommy.make(BlogItem, authorized=True)
         # aaaand check page
         self.browser.get(self.live_server_url + '/blog')
@@ -184,7 +184,7 @@ class PortalTest(LiveServerTestCase):
         news page test at /staff
         """
         # create some users
-        for i in xrange(10):
+        for i in range(10):
             mommy.make(Author)
         # aaaand check page
         self.browser.get(self.live_server_url + '/staff')
