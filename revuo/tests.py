@@ -37,8 +37,7 @@ class PortalTest(LiveServerTestCase):
         news page test at /news
         """
         # create some news
-        for i in range(10):
-            mommy.make(NewsItem, authorized=True)
+        mommy.make(NewsItem, authorized=True, _quantity=10)
         # then check the page
         self.browser.get(self.live_server_url + '/news')
         self.assertIn('News', self.browser.title)
@@ -81,8 +80,7 @@ class PortalTest(LiveServerTestCase):
         news page test at /media
         """
         # create some media
-        for i in range(10):
-            mommy.make(VideoItem, authorized=True)
+        mommy.make(VideoItem, authorized=True, _quantity=10)
         # and check page
         self.browser.get(self.live_server_url + '/media')
         self.assertIn('Media', self.browser.title)
@@ -124,8 +122,7 @@ class PortalTest(LiveServerTestCase):
         news page test at /publications
         """
         # create publications
-        for i in range(10):
-            mommy.make(Publication, authorized=True)
+        mommy.make(Publication, authorized=True, _quantity=10)
         # check page
         self.browser.get(self.live_server_url + '/publications')
         self.assertIn('Publications', self.browser.title)
@@ -140,8 +137,7 @@ class PortalTest(LiveServerTestCase):
         news page test at /blog
         """
         # create some media
-        for i in range(10):
-            mommy.make(BlogItem, authorized=True)
+        mommy.make(BlogItem, authorized=True, _quantity=10)
         # aaaand check page
         self.browser.get(self.live_server_url + '/blog')
         self.assertIn('Blog', self.browser.title)
@@ -184,8 +180,7 @@ class PortalTest(LiveServerTestCase):
         news page test at /staff
         """
         # create some users
-        for i in range(10):
-            mommy.make(Author)
+        mommy.make(Author, _quantity=10)
         # aaaand check page
         self.browser.get(self.live_server_url + '/staff')
         self.assertIn('Staff', self.browser.title)
