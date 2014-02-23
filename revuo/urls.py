@@ -14,8 +14,6 @@ urlpatterns = patterns('',
     url(r'^restricted/editprofile$', EditProfile.as_view()),
 
     # password change
-    #url(r'^restricted/passwd/change$', 'django.contrib.auth.views.password_change'),
-    #url(r'^restricted/passwd/ok$', 'django.contrib.auth.views.password_change_done'),
     url(r'^restricted/password/change$', 'django.contrib.auth.views.password_change'),
     url(r'^restricted/password/ok$', 'django.contrib.auth.views.password_change_done', {}, name='password_change_done')
 )
