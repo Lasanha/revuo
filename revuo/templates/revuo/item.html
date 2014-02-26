@@ -13,7 +13,22 @@
     {% endblock %}
 
     {% if user.is_authenticated and not item.authorized %}
-        <p>Authorize | Suggest Review | Trash</p>
+        <p>
+        <input type='button' name='authorize' onclick="auth_item({{ item.id }})" value="Authorize"/>
+         | Suggest Review | Trash
+</p>
     {% endif %}
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function auth_item(item_id){
+        result = $.get("/restricted/publisher/{{ category }}/" + item_id,
+            function(data) {
+                document.location.reload();
+            }, 
+            "json")
+    }
+</script>
 {% endblock %}

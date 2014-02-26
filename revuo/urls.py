@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 
 from revuo.views import Home, Publications, Staff, StaffView
-from revuo.views import ItemList, ItemView, NewItem, EditProfile, Publisher
+from revuo.views import ItemList, ItemView, NewItem, EditProfile, Publisher, PublishItem
 
 urlpatterns = patterns('',
     url(r'^$', Home.as_view()),
@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^restricted/(?P<category>[VNB])/add$', NewItem.as_view()),
     url(r'^restricted/editprofile$', EditProfile.as_view()),
     url(r'^restricted/publisher$', Publisher.as_view()),
+    url(r'^restricted/publisher/(?P<category>[VNB])/(?P<item_id>\d+)$', PublishItem.as_view()),
 
     # password change
     url(r'^restricted/password/change$', 'django.contrib.auth.views.password_change'),

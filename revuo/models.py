@@ -31,6 +31,10 @@ class NewsItem(models.Model):
     text = models.TextField()
 
 
+    def authorize(self):
+        self.authorized = True
+
+
     def __unicode__(self):
         return self.title
 
@@ -49,6 +53,10 @@ class BlogItem(models.Model):
     text = models.TextField()
 
 
+    def authorize(self):
+        self.authorized = True
+
+
     def __unicode__(self):
         return self.title
 
@@ -65,6 +73,10 @@ class VideoItem(models.Model):
     title = models.TextField(max_length=140)
     video = models.URLField(max_length=280)
     text = models.TextField()
+
+
+    def authorize(self):
+        self.authorized = True
 
 
     def __unicode__(self):

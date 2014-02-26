@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.template import RequestContext
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import View
 from revuo.models import NewsItem, VideoItem, BlogItem, Author, Publication
 from revuo.forms import FormNewsItem, FormVideoItem, FormBlogItem, FormEditProfile
+import json
 
 
 class Home(View):
@@ -35,7 +37,7 @@ class ItemView(View):
         else:
             item = get_object_or_404(Item, id=item_id, authorized=True)
         template = 'revuo/{}_item.html'.format(category)
-        return render(request, template, {'item':item})
+        return render(request, template, {'item':item, 'category':category})
 
 
 class Publications(View):
@@ -88,7 +90,7 @@ class NewItem(View):
             item = form.instance
             author = Author.objects.get(user=request.user)
             item.author = author
-            item.authorized = True
+            item.authorized = False
             item.save()
             return redirect('/')
         return render(request, self.template_name, {'form': form},
@@ -109,6 +111,20 @@ class Publisher(View):
         items_list = list(news) + list(posts) + list(videos)
         return render(request, self.template_name, {'items_list':items_list},
             context_instance=RequestContext(request))
+
+
+class PublishItem(View):
+    categories = {'N': NewsItem, 'V': VideoItem, 'B': BlogItem}
+
+    @method_decorator(login_required)
+    def get(self, request, category, item_id):
+        if request.is_ajax():
+            Item = self.categories[category]
+            item = get_object_or_404(Item, id=int(item_id))
+            item.authorize()
+            item.save()
+            result = {'msg': 'Item Published'}
+        return HttpResponse(json.dumps(result), content_type='application/json')
 
 
 class EditProfile(View):
