@@ -225,6 +225,34 @@ class PortalTest(LiveServerTestCase):
         self.assertTrue(user_right)
 
 
+    def test_publisher_page(self):
+        # login
+        self.browser.get(self.live_server_url + '/login')
+        user_field = self.browser.find_element_by_name('username')
+        user_field.send_keys(self.username)
+        pass_field = self.browser.find_element_by_name('password')
+        pass_field.send_keys(self.userpass)
+        pass_field.submit()
+        # go to publisher page
+        self.browser.get(self.live_server_url + '/restricted/publisher')
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn('Pending', body.text)
+        # creating unauthorized items
+        news = mommy.make(NewsItem, authorized=False)
+        video = mommy.make(VideoItem, authorized=False)
+        post = mommy.make(BlogItem, authorized=False)
+        # and visiting to see them pending
+        self.browser.get(self.live_server_url + '/{}'.format(news.get_url()))
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn('Pending', body.text)
+        self.browser.get(self.live_server_url + '/{}'.format(video.get_url()))
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn('Pending', body.text)
+        self.browser.get(self.live_server_url + '/{}'.format(post.get_url()))
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn('Pending', body.text)
+        
+
     def test_login_page(self):
         """
         login page test at /login
