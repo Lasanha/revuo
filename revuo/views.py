@@ -30,7 +30,10 @@ class ItemView(View):
 
     def get(self, request, category, item_id):
         Item = self.categories[category]
-        item = get_object_or_404(Item, id=item_id, authorized=True)
+        if request.user.is_authenticated():
+            item = get_object_or_404(Item, id=item_id)
+        else:
+            item = get_object_or_404(Item, id=item_id, authorized=True)
         template = 'revuo/{}_item.html'.format(category)
         return render(request, template, {'item':item})
 
@@ -89,6 +92,22 @@ class NewItem(View):
             item.save()
             return redirect('/')
         return render(request, self.template_name, {'form': form},
+            context_instance=RequestContext(request))
+
+
+class Publisher(View):
+    template_name = 'revuo/publisher.html'
+
+    """
+    gets a list of items pending authorization
+    """
+    @method_decorator(login_required)
+    def get(self, request):
+        news = NewsItem.objects.filter(authorized=False)
+        posts = BlogItem.objects.filter(authorized=False)
+        videos = VideoItem.objects.filter(authorized=False)
+        items_list = list(news) + list(posts) + list(videos)
+        return render(request, self.template_name, {'items_list':items_list},
             context_instance=RequestContext(request))
 
 

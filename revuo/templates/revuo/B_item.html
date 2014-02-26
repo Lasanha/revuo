@@ -1,8 +1,8 @@
-{% extends "revuo/base.html" %}
+{% extends "revuo/item.html" %}
 
 {% block title %}Blog - {{ item.title }} {% endblock %}
 
-{% block page_body %}
+{% block item_body %}
 {{ item.published_at }}
 {{ item.title }}
 {{ item.description }}

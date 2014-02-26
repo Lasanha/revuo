@@ -35,6 +35,10 @@ class NewsItem(models.Model):
         return self.title
 
 
+    def get_url(self):
+        return 'N/{}'.format(self.id)
+
+
 class BlogItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateTimeField(auto_now=True)
@@ -49,6 +53,10 @@ class BlogItem(models.Model):
         return self.title
 
 
+    def get_url(self):
+        return 'B/{}'.format(self.id)
+
+
 class VideoItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateTimeField(auto_now=True)
@@ -61,6 +69,10 @@ class VideoItem(models.Model):
 
     def __unicode__(self):
         return self.title
+
+
+    def get_url(self):
+        return 'V/{}'.format(self.id)
 
 
 def publication_destination(instance, filename):

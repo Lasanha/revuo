@@ -1,0 +1,19 @@
+{% extends "revuo/base.html" %}
+
+{% block title %}
+{% endblock %}
+
+{% block page_body %}
+
+    {% if user.is_authenticated and not item.authorized %}
+        <p>Pending Authorization</p>
+    {% endif %}
+
+    {% block item_body %}
+    {% endblock %}
+
+    {% if user.is_authenticated and not item.authorized %}
+        <p>Authorize | Suggest Review | Trash</p>
+    {% endif %}
+
+{% endblock %}
