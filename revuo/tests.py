@@ -4,6 +4,7 @@ from model_mommy import mommy
 from revuo.models import Author, Admin, NewsItem, BlogItem, VideoItem, Publication
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from time import sleep
 
 
 class PortalTest(LiveServerTestCase):
@@ -69,8 +70,8 @@ class PortalTest(LiveServerTestCase):
         text_field = self.browser.find_element_by_name('text')
         text_field.send_keys('news text body')
         text_field.submit()
-        # go to news list and look for the title
-        self.browser.get(self.live_server_url + '/news')
+        # go to pending list and look for the title
+        self.browser.get(self.live_server_url + '/restricted/publisher')
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('news item', body.text)
 
@@ -111,8 +112,8 @@ class PortalTest(LiveServerTestCase):
         text_field = self.browser.find_element_by_name('text')
         text_field.send_keys('video text body')
         text_field.submit()
-        # go to video list and look for the title
-        self.browser.get(self.live_server_url + '/media')
+        # go to pending list and look for the title
+        self.browser.get(self.live_server_url + '/restricted/publisher')
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('video item', body.text)
 
@@ -169,8 +170,8 @@ class PortalTest(LiveServerTestCase):
         text_field = self.browser.find_element_by_name('text')
         text_field.send_keys('blog text body')
         text_field.submit()
-        # go to blog list and look for the title
-        self.browser.get(self.live_server_url + '/blog')
+        # go to pending list and look for the title
+        self.browser.get(self.live_server_url + '/restricted/publisher')
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('blog item', body.text)
 
@@ -251,6 +252,13 @@ class PortalTest(LiveServerTestCase):
         self.browser.get(self.live_server_url + post.get_url())
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Pending', body.text)
+        # click on authorize
+        self.browser.find_element_by_name('authorize').click()
+        # wait reload
+        sleep(3)
+        # make sure that post is now authorized
+        post = BlogItem.objects.get(id=post.id) # why do I need to refresh the reference?
+        self.assertTrue(post.authorized)
         
 
     def test_login_page(self):
