@@ -36,7 +36,7 @@ class NewsItem(models.Model):
 
 
     def get_url(self):
-        return 'N/{}'.format(self.id)
+        return '/N/{}'.format(self.id)
 
 
 class BlogItem(models.Model):
@@ -54,7 +54,7 @@ class BlogItem(models.Model):
 
 
     def get_url(self):
-        return 'B/{}'.format(self.id)
+        return '/B/{}'.format(self.id)
 
 
 class VideoItem(models.Model):
@@ -72,7 +72,7 @@ class VideoItem(models.Model):
 
 
     def get_url(self):
-        return 'V/{}'.format(self.id)
+        return '/V/{}'.format(self.id)
 
 
 def publication_destination(instance, filename):

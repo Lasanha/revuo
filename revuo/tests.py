@@ -242,13 +242,13 @@ class PortalTest(LiveServerTestCase):
         video = mommy.make(VideoItem, authorized=False)
         post = mommy.make(BlogItem, authorized=False)
         # and visiting to see them pending
-        self.browser.get(self.live_server_url + '/{}'.format(news.get_url()))
+        self.browser.get(self.live_server_url + news.get_url())
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Pending', body.text)
-        self.browser.get(self.live_server_url + '/{}'.format(video.get_url()))
+        self.browser.get(self.live_server_url + video.get_url())
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Pending', body.text)
-        self.browser.get(self.live_server_url + '/{}'.format(post.get_url()))
+        self.browser.get(self.live_server_url + post.get_url())
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Pending', body.text)
         
