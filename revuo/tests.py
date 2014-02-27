@@ -242,13 +242,25 @@ class PortalTest(LiveServerTestCase):
         news = mommy.make(NewsItem, authorized=False)
         video = mommy.make(VideoItem, authorized=False)
         post = mommy.make(BlogItem, authorized=False)
-        # and visiting to see them pending
+        # and visiting to see them pending and authorize or delete
+        # just look
         self.browser.get(self.live_server_url + news.get_url())
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Pending', body.text)
+
+        # delete this
         self.browser.get(self.live_server_url + video.get_url())
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Pending', body.text)
+        # click on delete
+        self.browser.find_element_by_name('delete').click()
+        # wait deletion
+        sleep(3)
+        # assert object was deleted
+        video = VideoItem.objects.filter(id=video.id)
+        self.assertFalse(video)
+
+        # authorize this
         self.browser.get(self.live_server_url + post.get_url())
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Pending', body.text)
