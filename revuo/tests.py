@@ -9,16 +9,21 @@ from time import sleep
 
 class PortalTest(LiveServerTestCase):
     username = 'john'
+    ed_username = 'editor'
     userpass = 'foopas'
 
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
-        # create an author for restricted tests
+        # create an author and an editor for restricted tests
         user = mommy.make(User, username=self.username, first_name='John')
+        ed_user = mommy.make(User, username=self.ed_username, first_name='Editor')
         user.set_password(self.userpass)
+        ed_user.set_password(self.userpass)
         user.save()
+        ed_user.save()
         self.author = mommy.make(Author, user=user)
+        self.editor = mommy.make(Author, user=ed_user, editor=True)
 
 
     def tearDown(self):
@@ -70,10 +75,9 @@ class PortalTest(LiveServerTestCase):
         text_field = self.browser.find_element_by_name('text')
         text_field.send_keys('news text body')
         text_field.submit()
-        # go to pending list and look for the title
-        self.browser.get(self.live_server_url + '/restricted/publisher')
+        # redirected to the item
         body = self.browser.find_element_by_tag_name('body')
-        self.assertIn('news item', body.text)
+        self.assertIn('Pending Authorization', body.text)
 
 
     def test_media_page(self):
@@ -112,10 +116,9 @@ class PortalTest(LiveServerTestCase):
         text_field = self.browser.find_element_by_name('text')
         text_field.send_keys('video text body')
         text_field.submit()
-        # go to pending list and look for the title
-        self.browser.get(self.live_server_url + '/restricted/publisher')
+        # redirected to the item
         body = self.browser.find_element_by_tag_name('body')
-        self.assertIn('video item', body.text)
+        self.assertIn('Pending Authorization', body.text)
 
 
     def test_publications_page(self):
@@ -170,10 +173,9 @@ class PortalTest(LiveServerTestCase):
         text_field = self.browser.find_element_by_name('text')
         text_field.send_keys('blog text body')
         text_field.submit()
-        # go to pending list and look for the title
-        self.browser.get(self.live_server_url + '/restricted/publisher')
+        # redirected to the item
         body = self.browser.find_element_by_tag_name('body')
-        self.assertIn('blog item', body.text)
+        self.assertIn('Pending Authorization', body.text)
 
 
     def test_staff_page(self):
@@ -227,6 +229,10 @@ class PortalTest(LiveServerTestCase):
 
 
     def test_publisher_page(self):
+        # creating unauthorized items
+        news = mommy.make(NewsItem, authorized=False)
+        video = mommy.make(VideoItem, authorized=False)
+        post = mommy.make(BlogItem, authorized=False)
         # login
         self.browser.get(self.live_server_url + '/login')
         user_field = self.browser.find_element_by_name('username')
@@ -234,14 +240,22 @@ class PortalTest(LiveServerTestCase):
         pass_field = self.browser.find_element_by_name('password')
         pass_field.send_keys(self.userpass)
         pass_field.submit()
-        # go to publisher page
+        # go to publisher page, redirects to login
         self.browser.get(self.live_server_url + '/restricted/publisher')
         body = self.browser.find_element_by_tag_name('body')
-        self.assertIn('Pending', body.text)
-        # creating unauthorized items
-        news = mommy.make(NewsItem, authorized=False)
-        video = mommy.make(VideoItem, authorized=False)
-        post = mommy.make(BlogItem, authorized=False)
+        self.assertIn('Username', body.text)
+        # editor logs in
+        user_field = self.browser.find_element_by_name('username')
+        user_field.send_keys(self.ed_username)
+        pass_field = self.browser.find_element_by_name('password')
+        pass_field.send_keys(self.userpass)
+        pass_field.submit()
+        # go to publisher page, should see Pending Items
+        self.browser.get(self.live_server_url + '/restricted/publisher')
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn(video.title, body.text)
+        self.assertIn(news.title, body.text)
+        self.assertIn(post.title, body.text)
         # and visiting to see them pending and authorize or delete
         # just look
         self.browser.get(self.live_server_url + news.get_url())
