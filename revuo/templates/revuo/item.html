@@ -14,20 +14,27 @@
 
     {% if user.is_authenticated and not item.authorized %}
         <p>
-        <input type='button' name='authorize' onclick="auth_item({{ item.id }})" value="Authorize"/>
-         | Suggest Review | Trash
-</p>
+        <input type='button' name='authorize' onclick="auth_item()" value="Authorize"/>
+        <input type='button' name='delete' onclick="del_item()" value="Delete"/>
+        </p>
     {% endif %}
 
 {% endblock %}
 
 {% block scripts %}
 <script>
-    function auth_item(item_id){
-        result = $.get("/restricted/publisher/{{ category }}/" + item_id,
+    function auth_item(){
+        result = $.get("/restricted/publisher{{ item.get_url }}",
             function(data) {
                 document.location.reload();
             }, 
+            "json")
+    }
+    function del_item(){
+        result = $.get("/restricted/trasher{{ item.get_url }}",
+            function(data) {
+                window.location.replace('/');
+            },
             "json")
     }
 </script>

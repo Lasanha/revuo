@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.template import RequestContext
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import View
 from revuo.models import NewsItem, VideoItem, BlogItem, Author, Publication
@@ -124,6 +124,23 @@ class PublishItem(View):
             item.authorize()
             item.save()
             result = {'msg': 'Item Published'}
+        else:
+            return HttpResponseForbidden("FORBIDDEN")
+        return HttpResponse(json.dumps(result), content_type='application/json')
+
+
+class TrashItem(View):
+    categories = {'N': NewsItem, 'V': VideoItem, 'B': BlogItem}
+
+    @method_decorator(login_required)
+    def get(self, request, category, item_id):
+        if request.is_ajax():
+            Item = self.categories[category]
+            item = get_object_or_404(Item, id=int(item_id))
+            item.delete()
+            result = {'msg': 'Item Deleted'}
+        else:
+            return HttpResponseForbidden("FORBIDDEN")
         return HttpResponse(json.dumps(result), content_type='application/json')
 
 
