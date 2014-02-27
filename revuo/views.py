@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.template import RequestContext
-from django.http import HttpResponse, HttpResponseForbidden
-from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseForbidden, Http404
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.generic.base import View
 from revuo.models import NewsItem, VideoItem, BlogItem, Author, Publication
 from revuo.forms import FormNewsItem, FormVideoItem, FormBlogItem, FormEditProfile
@@ -92,9 +92,13 @@ class NewItem(View):
             item.author = author
             item.authorized = False
             item.save()
-            return redirect('/')
+            return redirect(item.get_url())
         return render(request, self.template_name, {'form': form},
             context_instance=RequestContext(request))
+
+
+def editor_test(user):
+    return Author.objects.get(user=user).editor
 
 
 class Publisher(View):
@@ -104,6 +108,7 @@ class Publisher(View):
     gets a list of items pending authorization
     """
     @method_decorator(login_required)
+    @method_decorator(user_passes_test(editor_test))
     def get(self, request):
         news = NewsItem.objects.filter(authorized=False)
         posts = BlogItem.objects.filter(authorized=False)
