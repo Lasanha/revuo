@@ -122,6 +122,7 @@ class PublishItem(View):
     categories = {'N': NewsItem, 'V': VideoItem, 'B': BlogItem}
 
     @method_decorator(login_required)
+    @method_decorator(user_passes_test(editor_test))
     def get(self, request, category, item_id):
         if request.is_ajax():
             Item = self.categories[category]
@@ -138,6 +139,7 @@ class TrashItem(View):
     categories = {'N': NewsItem, 'V': VideoItem, 'B': BlogItem}
 
     @method_decorator(login_required)
+    @method_decorator(user_passes_test(editor_test))
     def get(self, request, category, item_id):
         if request.is_ajax():
             Item = self.categories[category]
