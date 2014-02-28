@@ -1,0 +1,10 @@
+{% extends "revuo/item.html" %}
+
+{% block title %}Publication - {{ item.title }} {% endblock %}
+
+{% block item_body %}
+{{ item.published_at }}
+{{ item.title }}
+{{ item.description }}
+{{ item.attachment.url }}
+{% endblock %}

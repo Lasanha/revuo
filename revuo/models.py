@@ -101,5 +101,13 @@ class Publication(models.Model):
     attachment = models.FileField(upload_to=publication_destination)
 
 
+    def authorize(self):
+        self.authorized = True
+
+
+    def get_url(self):
+        return '/P/{}'.format(self.id)
+
+
     def __unicode__(self):
         return self.title
