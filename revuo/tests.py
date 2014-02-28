@@ -5,6 +5,7 @@ from revuo.models import Author, Admin, NewsItem, BlogItem, VideoItem, Publicati
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from time import sleep
+import os
 
 
 class PortalTest(LiveServerTestCase):
@@ -134,6 +135,27 @@ class PortalTest(LiveServerTestCase):
         pubs_item = self.browser.find_element_by_tag_name('li')
         self.assertIsNotNone(pubs_list)
         self.assertIsNotNone(pubs_item)
+        # create a new one via form
+        # enter credentials
+        self.browser.get(self.live_server_url + '/login')
+        user_field = self.browser.find_element_by_name('username')
+        user_field.send_keys(self.username)
+        pass_field = self.browser.find_element_by_name('password')
+        pass_field.send_keys(self.userpass)
+        pass_field.submit()
+        # go to form
+        self.browser.get(self.live_server_url + '/restricted/P/add')
+        title_field = self.browser.find_element_by_name('title')
+        title_field.send_keys('publication')
+        desc_field = self.browser.find_element_by_name('description')
+        desc_field.send_keys('pub description')
+        file_field = self.browser.find_element_by_css_selector('input[type="file"]')
+        file_field.send_keys(os.path.abspath(__file__))
+        desc_field.submit()
+        # redirected to the item
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn('Pending Authorization', body.text)
+        self.assertIn('pub description', body.text)
 
 
     def test_blog_page(self):
