@@ -3,7 +3,8 @@
 {% block title %}Login{% endblock %}
 
 {% block page_body %}
-<div>
+<div class="container">
+    <div class="starter-template">
 
     {%if form.errors %}
         {{ form.non_field_errors }}
@@ -27,5 +28,6 @@
         <input type="hidden" name="next" value="/" />
     </form>
 
+    </div>
 </div>
 {% endblock %}

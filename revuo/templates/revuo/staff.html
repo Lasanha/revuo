@@ -3,9 +3,14 @@
 {% block title %}Staff{% endblock %}
 
 {% block page_body %}
-<ul name='authors_list'>
-    {% for author in authors_list %}
-        <li>{{ author }}</li>
-    {% endfor %}
-</ul>
+<div class="container">
+    <div class="starter-template">
+        <h1>Staff</h1>
+        <ul name='authors_list'>
+        {% for author in authors_list %}
+            <li>{{ author }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
 {% endblock %}

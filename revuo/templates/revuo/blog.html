@@ -3,9 +3,14 @@
 {% block title %}Blog{% endblock %}
 
 {% block page_body %}
-<ol name='post_list'>
-    {% for post in items_list %}
-        <li>{{ post.title }}</li>
-    {% endfor %}
-</ol>
+<div class="container">
+    <div class="starter-template">
+        <h1>Blog</h1>
+        <ol name='post_list'>
+        {% for post in items_list %}
+            <li>{{ post.title }}</li>
+        {% endfor %}
+        </ol>
+    </div>
+</div>
 {% endblock %}

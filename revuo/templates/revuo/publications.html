@@ -3,9 +3,16 @@
 {% block title %}Publications{% endblock %}
 
 {% block page_body %}
-<ol name='pubs_list'>
+<div class="container">
+    <div class="starter-template">
+
+    <h1>Publications</h1>
+    <ol name='pubs_list'>
     {% for pub in pubs_list %}
         <li>{{ pub }}</li>
     {% endfor %}
-</ol>
+    </ol>
+
+    </div>
+</div>
 {% endblock %}

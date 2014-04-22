@@ -3,12 +3,14 @@
 {% block title %}Edit Item{% endblock %}
 
 {% block page_body %}
-<div>
+<div class="container">
+    <div class="starter-template">
 
     {%if form.errors %}
         {{ form.non_field_errors }}
     {% endif %}
 
+    <p>
     <form action="" method="post">
         {% csrf_token %}
         <table>
@@ -19,6 +21,8 @@
         </table>
         <input type="hidden" name="next" value="/" />
     </form>
+    </p>
 
+    </div>
 </div>
 {% endblock %}

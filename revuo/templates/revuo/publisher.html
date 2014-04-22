@@ -3,10 +3,16 @@
 {% block title %}Pending Items{% endblock %}
 
 {% block page_body %}
-<p>Pending Authorization</p>
-<ol name='items_list'>
+<div class="container">
+    <div class="starter-template">
+
+    <h1>Pending Authorization</h1>
+    <ol name='items_list'>
     {% for item in items_list %}
         <li><a href='{{ item.get_url }}'>{{ item.title }}</a></li>
     {% endfor %}
-</ol>
+    </ol>
+
+    </div>
+</div>
 {% endblock %}

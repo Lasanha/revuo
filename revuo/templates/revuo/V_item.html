@@ -3,8 +3,12 @@
 {% block title %}Media - {{ item.title }} {% endblock %}
 
 {% block item_body %}
-{{ item.published_at }}
-{{ item.title }}
-{{ item.description }}
-{{ item.text }}
+<div class="container">
+    <div class="starter-template">
+        {{ item.published_at }}
+        <h1>{{ item.title }}</h1>
+        <p class="lead">{{ item.description }}</p>
+        <p>{{ item.text|linebreaksbr }}</p>
+    </div>
+</div>
 {% endblock %}

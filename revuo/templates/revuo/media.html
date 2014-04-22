@@ -3,9 +3,14 @@
 {% block title %}Media{% endblock %}
 
 {% block page_body %}
-<ol name='media_list'>
-    {% for media in items_list %}
-        <li>{{ media.title }}</li>
-    {% endfor %}
-</ol>
+<div class="container">
+    <div class="starter-template">
+        <h1>Videos</h1>
+        <ol name='media_list'>
+        {% for media in items_list %}
+            <li>{{ media.title }}</li>
+        {% endfor %}
+        </ol>
+    </div>
+</div>
 {% endblock %}
