@@ -40,9 +40,11 @@
                             <li class="dropdown-header">User</li>
                             <li><a href="/restricted/editprofile">Edit Profile</a></li>
                             <li><a href="/restricted/password/change">Change Password</a></li>
+                            {% if user.author.editor %}
                             <li class="divider"></li>
                             <li class="dropdown-header">Moderation</li>
                             <li><a href="/restricted/publisher">Pending Items</a></li>
+                            {% endif %}
                             <li class="divider"></li>
                             <li><a href="/logout">Logout</a></li>
                         {% else %}
