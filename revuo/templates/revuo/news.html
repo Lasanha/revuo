@@ -4,13 +4,13 @@
 
 {% block page_body %}
 <div class="container">
-    <div class="starter-template">
+    <div class="news-panel">
         <h1>News</h1>
-        <ol name='news_list'>
+        <ul name='news_list'>
         {% for news in items_list %}
-            <li>{{ news.title }}</li>
+            <li><a href="{{ news.get_url }}">{{ news.title }}</a></li>
         {% endfor %}
-        </ol>
+        </ul>
     </div>
 </div>
 {% endblock %}

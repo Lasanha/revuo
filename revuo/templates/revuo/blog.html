@@ -4,13 +4,13 @@
 
 {% block page_body %}
 <div class="container">
-    <div class="starter-template">
+    <div class="blog-panel">
         <h1>Blog</h1>
-        <ol name='post_list'>
+        <ul name='post_list'>
         {% for post in items_list %}
-            <li>{{ post.title }}</li>
+            <li><a href="{{ post.get_url }}">{{ post.title }}</a></li>
         {% endfor %}
-        </ol>
+        </ul>
     </div>
 </div>
 {% endblock %}

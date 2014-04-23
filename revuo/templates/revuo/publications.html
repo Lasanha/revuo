@@ -4,15 +4,13 @@
 
 {% block page_body %}
 <div class="container">
-    <div class="starter-template">
-
-    <h1>Publications</h1>
-    <ol name='pubs_list'>
-    {% for pub in pubs_list %}
-        <li>{{ pub }}</li>
-    {% endfor %}
-    </ol>
-
+    <div class="publications-panel">
+        <h1>Publications</h1>
+        <ul name='pubs_list'>
+        {% for pub in items_list %}
+            <li><a href="{{ pub.get_url }}">{{ pub.title }}</a></li>
+        {% endfor %}
+        </ul>
     </div>
 </div>
 {% endblock %}

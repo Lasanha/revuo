@@ -1,7 +1,48 @@
 body {
   padding-top: 50px;
 }
-.starter-template {
+
+.home-panel {
   padding: 40px 15px;
   text-align: center;
+}
+
+.news-panel {
+}
+
+.news-panel > ul {
+  list-style-type: None;
+}
+
+.news-panel > ul > li {
+}
+
+.media-panel {
+}
+
+.media-panel > ul {
+  list-style-type: None;
+}
+
+.media-panel > ul > li {
+}
+
+.blog-panel {
+}
+
+.blog-panel > ul {
+  list-style-type: None;
+}
+
+.blog-panel > ul > li {
+}
+
+.publications-panel {
+}
+
+.publications-panel > ul {
+  list-style-type: None;
+}
+
+.publications-panel > ul > li {
 }
