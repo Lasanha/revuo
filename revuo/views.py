@@ -17,7 +17,7 @@ class Home(View):
 
 
 class ItemList(View):
-    categories = {'news': NewsItem, 'media': VideoItem, 'blog': BlogItem}
+    categories = {'news': NewsItem, 'media': VideoItem, 'blog': BlogItem, 'publications': Publication}
 
     def get(self, request, category):
         Item = self.categories[category]
@@ -38,15 +38,6 @@ class ItemView(View):
             item = get_object_or_404(Item, id=item_id, authorized=True)
         template = 'revuo/{}_item.html'.format(category)
         return render(request, template, {'item':item, 'category':category})
-
-
-class Publications(View):
-    template_name = 'revuo/publications.html'
-
-    def get(self, request):
-        authorized = Publication.objects.filter(authorized=True)
-        ordered = authorized.order_by('-created_at')[:10]
-        return render(request, self.template_name, {'pubs_list':ordered})
 
 
 class Staff(View):

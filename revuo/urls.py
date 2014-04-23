@@ -1,12 +1,11 @@
 from django.conf.urls import patterns, include, url
 
-from revuo.views import Home, Publications, Staff, StaffView
+from revuo.views import Home, Staff, StaffView
 from revuo.views import ItemList, ItemView, NewItem, EditProfile, Publisher, PublishItem, TrashItem
 
 urlpatterns = patterns('',
     url(r'^$', Home.as_view()),
-    url(r'^publications$', Publications.as_view()),
-    url(r'^(?P<category>news|blog|media)$', ItemList.as_view()),
+    url(r'^(?P<category>publications|news|blog|media)$', ItemList.as_view()),
     url(r'^(?P<category>[VNBP])/(?P<item_id>\d+)$', ItemView.as_view()),
     url(r'^staff$', Staff.as_view()),
     url(r'^staff/(?P<staff_id>\d+)$', StaffView.as_view()),
