@@ -4,9 +4,9 @@
 
 {% block item_body %}
 <div class="container">
-    <div class="starter-template">
-        {{ item.published_at }}
+    <div class="media-item-panel">
         <h1>{{ item.title }}</h1>
+        <p>{{ item.published_at }}</p>
         <p class="lead">{{ item.description }}</p>
         <p>{{ item.text|linebreaksbr }}</p>
     </div>

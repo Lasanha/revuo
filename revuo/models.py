@@ -13,6 +13,10 @@ class Author(models.Model):
         return ' '.join([self.user.first_name, self.user.last_name])
 
 
+    def get_url(self):
+        return '/staff/{}'.format(self.id)
+
+
 class Admin(models.Model):
     user = models.OneToOneField(User)
 
@@ -88,7 +92,7 @@ class VideoItem(models.Model):
 
 
 def publication_destination(instance, filename):
-    return 'documents/' + '_'.join([str(hash(datetime.datetime.now())),filename])
+    return 'revuo/static/documents/' + '_'.join([str(hash(datetime.datetime.now())),filename])
 
 
 class Publication(models.Model):
@@ -107,6 +111,10 @@ class Publication(models.Model):
 
     def get_url(self):
         return '/P/{}'.format(self.id)
+
+
+    def get_att_url(self):
+        return self.attachment.url[6:]
 
 
     def __unicode__(self):

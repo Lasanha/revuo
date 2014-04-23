@@ -46,3 +46,28 @@ body {
 
 .publications-panel > ul > li {
 }
+
+.staff-panel {
+}
+
+.staff-panel > ul {
+  list-style-type: None;
+}
+
+.staff-panel > ul > li {
+}
+
+.news-item-panel {
+}
+
+.media-item-panel {
+}
+
+.blog-item-panel {
+}
+
+.publications-item-panel {
+}
+
+.staff-member-panel {
+}

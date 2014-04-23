@@ -4,11 +4,11 @@
 
 {% block item_body %}
 <div class="container">
-    <div class="starter-template">
-        {{ item.published_at }}
+    <div class="publications-item-panel">
         <h1>{{ item.title }}</h1>
+        <p>{{ item.published_at }}</p>
         <p class="lead">{{ item.description }}</p>
-        <p>{{ item.get_url }}</p>
+        <p><a href="{{ item.attachment.get_att_url }}">Download</a></p>
     </div>
 </div>
 {% endblock %}

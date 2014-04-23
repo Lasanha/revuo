@@ -4,11 +4,9 @@
 
 {% block page_body %}
 <div class="container">
-    <div class="starter-template">
-
-    <p class="lead">{{ author.user.first_name }} {{ author.user.last_name }}</p>
-    <p>{{ author.about|linebreaksbr }}</p>
-
+    <div class="staff-member-panel">
+        <h1>{{ author.user.first_name }} {{ author.user.last_name }}</h1>
+        <p>{{ author.about|linebreaksbr }}</p>
     </div>
 </div>
 {% endblock %}
