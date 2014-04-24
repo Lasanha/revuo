@@ -7,7 +7,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-revuo',
-    version='0.1',
+    version='0.1.1',
     packages=['revuo'],
     include_package_data=True,
     license='BSD License',
@@ -17,6 +17,7 @@ setup(
     author='Gabriel Marcondes',
     author_email='gabrielgeraldo@gmail.com',
     classifiers=[
+        'Development Status :: 2 - Pre-Alpha',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',

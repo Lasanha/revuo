@@ -4,6 +4,16 @@ Revuo
 
 Revuo is a simple CMS app for Django.
 
+News
+----
+
+Version 0.1.1 -
+* styling pages
+* static handling
+
+Version 0.1 - 
+basic, first version
+
 Quick start
 -----------
 
