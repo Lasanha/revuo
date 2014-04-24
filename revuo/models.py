@@ -114,7 +114,7 @@ class Publication(models.Model):
 
 
     def get_att_url(self):
-        return self.attachment.url[6:]
+        return self.attachment.url[5:]
 
 
     def __unicode__(self):

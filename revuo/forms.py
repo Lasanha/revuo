@@ -5,7 +5,7 @@ from revuo.models import NewsItem, BlogItem, VideoItem, Author, Publication
 class FormNewsItem(forms.ModelForm):
     class Meta:
         model = NewsItem
-        fields = ('title', 'text', 'description')
+        fields = ('title', 'description', 'text')
 
 
 class FormVideoItem(forms.ModelForm):
@@ -17,7 +17,7 @@ class FormVideoItem(forms.ModelForm):
 class FormBlogItem(forms.ModelForm):
     class Meta:
         model = BlogItem
-        fields = ('title', 'text', 'description')
+        fields = ('title', 'description', 'text')
 
 
 class FormPublication(forms.Form):
