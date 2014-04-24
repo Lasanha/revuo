@@ -8,14 +8,16 @@
     <div class="container">
         {% if user.is_authenticated and not item.authorized %}
             <div class="warning-panel base-panel">
-                <h1>Pending Authorization</h1>
+                <div class="alert alert-warning">
+                    <h1>Pending Authorization</h1>
+                </div>
             </div>
         {% endif %}
 
         {% block item_body %}
         {% endblock %}
 
-        {% if user.is_authenticated and not item.authorized %}
+        {% if user.is_authenticated and user.author.editor and not item.authorized %}
             <div class="actions-panel base-panel">
                 <p>
                 <button type='button' class="btn btn-primary" name='authorize' onclick="auth_item()">Authorize</button>
