@@ -4,7 +4,7 @@
 
 {% block page_body %}
 <div class="container">
-    <div class="starter-template">
+    <div class="edit-item-panel base-panel">
 
     {%if form.errors %}
         {{ form.non_field_errors }}
@@ -13,12 +13,8 @@
     <p>
     <form action="" method="post">
         {% csrf_token %}
-        <table>
-            {{ form.as_p }}
-            <tr>
-                <td><button type="submit">Submit</button></td>
-            </tr>
-        </table>
+        {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Submit</button>
         <input type="hidden" name="next" value="/" />
     </form>
     </p>

@@ -7,54 +7,23 @@ body {
   text-align: center;
 }
 
+.base-panel {
+  padding: 40px 15px;
+}
+
 .news-panel {
-}
-
-.news-panel > ul {
-  list-style-type: None;
-}
-
-.news-panel > ul > li {
 }
 
 .media-panel {
 }
 
-.media-panel > ul {
-  list-style-type: None;
-}
-
-.media-panel > ul > li {
-}
-
 .blog-panel {
-}
-
-.blog-panel > ul {
-  list-style-type: None;
-}
-
-.blog-panel > ul > li {
 }
 
 .publications-panel {
 }
 
-.publications-panel > ul {
-  list-style-type: None;
-}
-
-.publications-panel > ul > li {
-}
-
 .staff-panel {
-}
-
-.staff-panel > ul {
-  list-style-type: None;
-}
-
-.staff-panel > ul > li {
 }
 
 .news-item-panel {
@@ -71,3 +40,77 @@ body {
 
 .staff-member-panel {
 }
+
+.new-item-panel {
+}
+
+.edit-item-panel {
+}
+
+.publisher-panel {
+}
+
+.pass-change-panel {
+}
+
+form > p > label {
+    display: block;
+}
+
+form > p > textarea#id_title {
+    height: 2em;
+    width: 80em;
+}
+
+form > p > input#id_title {
+    height: 2em;
+    width: 80em;
+}
+
+form > p > textarea#id_text {
+    height: 10em;
+    width: 80em;
+}
+
+form > p > textarea#id_description {
+    height: 10em;
+    width: 80em;
+}
+
+form > p > input#id_description {
+    height: 10em;
+    width: 80em;
+}
+
+form > p > input#id_video {
+    height: 2em;
+    width: 80em;
+}
+
+form > p > textarea#id_about {
+    height: 10em;
+    width: 80em;
+}
+
+form > p > input#id_old_password {
+    height: 2em;
+    width: 40em;
+}
+
+form > p > input#id_new_password1 {
+    height: 2em;
+    width: 40em;
+}
+
+form > p > input#id_new_password2 {
+    height: 2em;
+    width: 40em;
+}
+
+ul {
+  list-style-type: None;
+}
+
+ul > li {
+}
+

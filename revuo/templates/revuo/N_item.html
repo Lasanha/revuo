@@ -3,12 +3,10 @@
 {% block title %}News - {{ item.title }} {% endblock %}
 
 {% block item_body %}
-<div class="container">
-    <div class="news-item-panel">
+    <div class="news-item-panel base-panel">
         <h1>{{ item.title }}</h1>
         <p>{{ item.published_at }}</p>
         <p class="lead">{{ item.description }}</p>
         <p>{{ item.text|linebreaksbr }}</p>
     </div>
-</div>
 {% endblock %}

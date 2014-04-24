@@ -4,7 +4,7 @@
 
 {% block page_body %}
 <div class="container">
-    <div class="starter-template">
+    <div class="login-panel base-panel">
 
     {%if form.errors %}
         {{ form.non_field_errors }}
@@ -12,19 +12,17 @@
 
     <form action="" method="post">
         {% csrf_token %}
-        <table>
-            <tr>
-                <td>{{ form.username.label_tag }}</td>
-                <td>{{ form.username }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.password.label_tag }}</td>
-                <td>{{ form.password }}</td>
-            </tr>
-            <tr>
-                <td><button type="submit">Login</button></td>
-            </tr>
-        </table>
+            <p>
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </p>
+            <p>
+                {{ form.password.label_tag }}
+                {{ form.password }}
+            </p>
+            <p>
+                <button class="btn btn-primary" type="submit">Login</button>
+            </p>
         <input type="hidden" name="next" value="/" />
     </form>
 
