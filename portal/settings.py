@@ -83,10 +83,14 @@ ALLOWED_HOSTS = ['*']
 
 import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
-STATIC_FILES_DIRS = (
+STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
