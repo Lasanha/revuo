@@ -1,8 +1,8 @@
 language: python
 env:
-  - REVUO_DEBUG=1
   global:
   - secure: N3QXZkCM8nZxAlMOz7nVHmHVTDcza/NmRejOMbY9tbdhG6foqVX0bGUmlKqbrgDTpea2NshPh3okEYyFfprI/KEySB3qg7MTWjCAb2/PxIq952kb7aOwfxAJYrt5DtOy21I69FscJVFNUE07zW5BQj/Qs0PsmIqDRWobbYQGpMA=
+  - REVUO_DEBUG=1
 python:
 - 2.7
 - 3.3
