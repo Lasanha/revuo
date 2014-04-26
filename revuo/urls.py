@@ -20,4 +20,7 @@ urlpatterns = patterns('',
     url(r'^restricted/password/ok$', 'django.contrib.auth.views.password_change_done', {}, name='password_change_done'),
     url(r'login/', 'django.contrib.auth.views.login'),
     url(r'logout/', 'django.contrib.auth.views.logout', {'next_page':'/'}),
+
+    # summernote for wysiwyg editor
+    url(r'^summernote/', include('django_summernote.urls')),
 )

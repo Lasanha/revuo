@@ -7,6 +7,6 @@
         <h1>{{ item.title }}</h1>
         <p>{{ item.published_at }}</p>
         <p class="lead">{{ item.description }}</p>
-        <p>{{ item.text|linebreaksbr }}</p>
+        {{ item.text|safe }}
     </div>
 {% endblock %}
