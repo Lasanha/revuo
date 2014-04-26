@@ -82,7 +82,7 @@ class NewItem(View):
             if category == 'P': # need to find out why it didn't work for ModelForm
                 item = Publication(author=author,attachment=request.FILES['attachment'])
                 item.title = form.cleaned_data['title']
-                item.title = form.cleaned_data['description']
+                item.description = form.cleaned_data['description']
             else:
                 item = form.instance
                 item.author = author
