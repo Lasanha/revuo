@@ -1,7 +1,7 @@
 from django.test import LiveServerTestCase, TestCase
 from selenium import webdriver
 from model_mommy import mommy
-from revuo.models import Author, Admin, NewsItem, BlogItem, VideoItem, Publication
+from revuo.models import Author, Admin, NewsItem, BlogItem, Publication
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from time import sleep
@@ -225,7 +225,6 @@ class PortalTest(LiveServerTestCase):
     def test_publisher_page(self):
         # creating unauthorized items
         news = mommy.make(NewsItem, authorized=False)
-        video = mommy.make(VideoItem, authorized=False)
         post = mommy.make(BlogItem, authorized=False)
         # login
         self.browser.get(self.live_server_url + '/login')
@@ -247,7 +246,6 @@ class PortalTest(LiveServerTestCase):
         # go to publisher page, should see Pending Items
         self.browser.get(self.live_server_url + '/restricted/publisher')
         body = self.browser.find_element_by_tag_name('body')
-        self.assertIn(video.title, body.text)
         self.assertIn(news.title, body.text)
         self.assertIn(post.title, body.text)
         # and visiting to see them pending and authorize or delete
@@ -255,18 +253,13 @@ class PortalTest(LiveServerTestCase):
         self.browser.get(self.live_server_url + news.get_url())
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Pending', body.text)
-
-        # delete this
-        self.browser.get(self.live_server_url + video.get_url())
-        body = self.browser.find_element_by_tag_name('body')
-        self.assertIn('Pending', body.text)
         # click on delete
         self.browser.find_element_by_name('delete').click()
         # wait deletion
         sleep(3)
         # assert object was deleted
-        video = VideoItem.objects.filter(id=video.id)
-        self.assertFalse(video)
+        news = NewsItem.objects.filter(id=news.id)
+        self.assertFalse(news)
 
         # authorize this
         self.browser.get(self.live_server_url + post.get_url())
@@ -332,7 +325,4 @@ class BackendTest(TestCase):
         self.assertTrue(isinstance(item.author, Author))
         item = mommy.make(BlogItem)
         self.assertTrue(isinstance(item, BlogItem))
-        self.assertTrue(isinstance(item.author, Author))
-        item = mommy.make(VideoItem)
-        self.assertTrue(isinstance(item, VideoItem))
         self.assertTrue(isinstance(item.author, Author))
