@@ -71,11 +71,18 @@ class PortalTest(LiveServerTestCase):
         self.browser.get(self.live_server_url + '/restricted/N/add')
         title_field = self.browser.find_element_by_name('title')
         title_field.send_keys('news item')
+        # switch to editor frame
+        ed_frame = self.browser.find_elements_by_tag_name("iframe")[0]
+        self.browser.switch_to.frame(ed_frame)
+        text_field = self.browser.find_element_by_class_name('note-editable')
+        text_field.send_keys('news text body')
+        sleep(3)
+        # go back
+        # if I enter the description first, the text field becomes empty and the test fails... why?
+        self.browser.switch_to.default_content()
         desc_field = self.browser.find_element_by_name('description')
         desc_field.send_keys('news description')
-        text_field = self.browser.find_element_by_name('text')
-        text_field.send_keys('news text body')
-        text_field.submit()
+        desc_field.submit()
         # redirected to the item
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Pending Authorization', body.text)
@@ -190,11 +197,17 @@ class PortalTest(LiveServerTestCase):
         self.browser.get(self.live_server_url + '/restricted/B/add')
         title_field = self.browser.find_element_by_name('title')
         title_field.send_keys('blog item')
+        # switch to editor frame
+        ed_frame = self.browser.find_elements_by_tag_name("iframe")[0]
+        self.browser.switch_to.frame(ed_frame)
+        text_field = self.browser.find_element_by_class_name('note-editable')
+        text_field.send_keys('blog text body')
+        sleep(3)
+        # go back - see news test
+        self.browser.switch_to.default_content()
         desc_field = self.browser.find_element_by_name('description')
         desc_field.send_keys('blog description')
-        text_field = self.browser.find_element_by_name('text')
-        text_field.send_keys('blog text body')
-        text_field.submit()
+        desc_field.submit()
         # redirected to the item
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Pending Authorization', body.text)
