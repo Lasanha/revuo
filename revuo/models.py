@@ -92,7 +92,7 @@ class VideoItem(models.Model):
 
 
 def publication_destination(instance, filename):
-    return 'revuo/static/documents/' + '_'.join([str(hash(datetime.datetime.now())),filename])
+    return '_'.join([str(instance.author.id),filename])
 
 
 class Publication(models.Model):
@@ -111,10 +111,6 @@ class Publication(models.Model):
 
     def get_url(self):
         return '/P/{}'.format(self.id)
-
-
-    def get_att_url(self):
-        return self.attachment.url[5:]
 
 
     def __unicode__(self):

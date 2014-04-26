@@ -2,11 +2,13 @@
 
 {% block title %}Publication - {{ item.title }} {% endblock %}
 
+{% load staticfiles %}
+
 {% block item_body %}
     <div class="publications-item-panel base-panel">
         <h1>{{ item.title }}</h1>
         <p>{{ item.published_at }}</p>
         <p class="lead">{{ item.description }}</p>
-        <p><a href="{{ item.get_att_url }}" class="btn btn-default">Download</a></p>
+        <p><a href="{{ item.attachment.url }}" class="btn btn-default">Download</a></p>
     </div>
 {% endblock %}
