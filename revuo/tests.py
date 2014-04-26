@@ -88,47 +88,6 @@ class PortalTest(LiveServerTestCase):
         self.assertIn('Pending Authorization', body.text)
 
 
-    def test_media_page(self):
-        """
-        news page test at /media
-        """
-        # create some media
-        mommy.make(VideoItem, authorized=True, _quantity=10)
-        # and check page
-        self.browser.get(self.live_server_url + '/media')
-        self.assertIn('Media', self.browser.title)
-        video_list = self.browser.find_element_by_name('media_list')
-        video_item = self.browser.find_element_by_tag_name('li')
-        self.assertIsNotNone(video_list)
-        self.assertIsNotNone(video_item)
-        # media view
-        media = mommy.make(VideoItem, authorized=True)
-        self.browser.get(self.live_server_url + '/V/' + str(media.id))
-        self.assertIn(media.title, self.browser.title)
-        body = self.browser.find_element_by_tag_name('body')
-        self.assertIn(media.text, body.text)
-        # create a new one via form
-        # enter credentials
-        self.browser.get(self.live_server_url + '/login')
-        user_field = self.browser.find_element_by_name('username')
-        user_field.send_keys(self.username)
-        pass_field = self.browser.find_element_by_name('password')
-        pass_field.send_keys(self.userpass)
-        pass_field.submit()
-        # go to form
-        self.browser.get(self.live_server_url + '/restricted/V/add')
-        title_field = self.browser.find_element_by_name('title')
-        title_field.send_keys('video item')
-        desc_field = self.browser.find_element_by_name('video')
-        desc_field.send_keys('http://example.org')
-        text_field = self.browser.find_element_by_name('text')
-        text_field.send_keys('video text body')
-        text_field.submit()
-        # redirected to the item
-        body = self.browser.find_element_by_tag_name('body')
-        self.assertIn('Pending Authorization', body.text)
-
-
     def test_publications_page(self):
         """
         news page test at /publications
