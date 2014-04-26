@@ -112,10 +112,3 @@ else:
     MEDIA_URL = S3_URL + 'media/'
     DEFAULT_FILE_STORAGE = 'portal.s3utils.MediaS3BotoStorage'
 
-
-def upload_to():
-    return 'item_uploads'
-
-SUMMERNOTE_CONFIG = {
-    'attachment_upoad_to': upload_to,
-}
