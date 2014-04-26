@@ -4,8 +4,8 @@ from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.generic.base import View
-from revuo.models import NewsItem, VideoItem, BlogItem, Author, Publication
-from revuo.forms import FormNewsItem, FormVideoItem, FormBlogItem, FormEditProfile, FormPublication
+from revuo.models import NewsItem, BlogItem, Author, Publication
+from revuo.forms import FormNewsItem, FormBlogItem, FormEditProfile, FormPublication
 import json
 
 
@@ -17,7 +17,7 @@ class Home(View):
 
 
 class ItemList(View):
-    categories = {'news': NewsItem, 'media': VideoItem, 'blog': BlogItem, 'publications': Publication}
+    categories = {'news': NewsItem, 'blog': BlogItem, 'publications': Publication}
 
     def get(self, request, category):
         Item = self.categories[category]
@@ -28,7 +28,7 @@ class ItemList(View):
 
 
 class ItemView(View):
-    categories = {'N': NewsItem, 'V': VideoItem, 'B': BlogItem, 'P': Publication}
+    categories = {'N': NewsItem, 'B': BlogItem, 'P': Publication}
 
     def get(self, request, category, item_id):
         Item = self.categories[category]
@@ -63,7 +63,7 @@ class StaffView(View):
 
 class NewItem(View):
     template_name = 'revuo/new_item.html'
-    categories = {'N': FormNewsItem, 'V': FormVideoItem, 'B': FormBlogItem, 'P': FormPublication}
+    categories = {'N': FormNewsItem, 'B': FormBlogItem, 'P': FormPublication}
 
     @method_decorator(login_required)
     def get(self, request, category):
@@ -108,15 +108,14 @@ class Publisher(View):
     def get(self, request):
         news = NewsItem.objects.filter(authorized=False)
         posts = BlogItem.objects.filter(authorized=False)
-        videos = VideoItem.objects.filter(authorized=False)
         pubs = Publication.objects.filter(authorized=False)
-        items_list = list(news) + list(posts) + list(videos) + list(pubs)
+        items_list = list(news) + list(posts) + list(pubs)
         return render(request, self.template_name, {'items_list':items_list},
             context_instance=RequestContext(request))
 
 
 class PublishItem(View):
-    categories = {'N': NewsItem, 'V': VideoItem, 'B': BlogItem, 'P': Publication}
+    categories = {'N': NewsItem, 'B': BlogItem, 'P': Publication}
 
     @method_decorator(login_required)
     @method_decorator(user_passes_test(editor_test))
@@ -133,7 +132,7 @@ class PublishItem(View):
 
 
 class TrashItem(View):
-    categories = {'N': NewsItem, 'V': VideoItem, 'B': BlogItem, 'P': Publication}
+    categories = {'N': NewsItem, 'B': BlogItem, 'P': Publication}
 
     @method_decorator(login_required)
     @method_decorator(user_passes_test(editor_test))

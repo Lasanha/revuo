@@ -69,28 +69,6 @@ class BlogItem(models.Model):
         return '/B/{}'.format(self.id)
 
 
-class VideoItem(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    published_at = models.DateTimeField(auto_now=True)
-    authorized = models.BooleanField(default=False)
-    author = models.ForeignKey('Author')
-    title = models.TextField(max_length=140)
-    video = models.URLField(max_length=280)
-    text = models.TextField()
-
-
-    def authorize(self):
-        self.authorized = True
-
-
-    def __unicode__(self):
-        return self.title
-
-
-    def get_url(self):
-        return '/V/{}'.format(self.id)
-
-
 def publication_destination(instance, filename):
     return '_'.join([str(instance.author.id),filename])
 
