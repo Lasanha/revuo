@@ -22,4 +22,3 @@ requests==2.2.1
 selenium==2.41.0
 six==1.6.1
 static==1.0.2
-wsgiref==0.1.2
