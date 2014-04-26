@@ -1,9 +1,8 @@
 {% load staticfiles %}
 
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
     <head>
-    <!--<link href="http://getbootstrap.com/examples/starter-template/starter-template.css" rel="stylesheet">-->
     <link href="{% static "basic-template.css" %}" rel="stylesheet">
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -64,10 +63,10 @@
         {% block page_body %}
         {% endblock %}
 
-        {% block scripts %}
-        {% endblock %}
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+        {% block scripts %}
+        {% endblock %}
     </body>
 
 </html>
