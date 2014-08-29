@@ -5,10 +5,8 @@ env:
   - REVUO_DEBUG=1
 python:
 - 2.7
-- 3.4
 install:
 - pip install -r requirements.txt
-- pip install https://bitbucket.org/andrewgodwin/south/get/e2c9102ee033.zip#egg=South
 before_script:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
