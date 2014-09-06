@@ -81,7 +81,7 @@ class NewItem(View):
         form = FormItem(request.POST, request.FILES)
         if form.is_valid():
             author = Author.objects.get(user=request.user)
-            if category == 'P': # need to find out why it didn't work for ModelForm
+            if self.category == 'P': # need to find out why it didn't work for ModelForm
                 item = Publication(author=author,attachment=request.FILES['attachment'])
                 item.title = form.cleaned_data['title']
                 item.description = form.cleaned_data['description']

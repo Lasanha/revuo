@@ -37,8 +37,19 @@ Quick start
 
     ...
 
-    url(r'', include(revuo_patterns)),
+    # revuo urls
+    url(r'', include(revuo_patterns, namespace='revuo')),
+
+    # summernote urls
     url(r'^summernote/', include('django_summernote.urls')),
+
+    # password recovery urls
+    url(r'^restricted/password/change$', 
+        'django.contrib.auth.views.password_change',
+        name='password_change'),
+    url(r'^restricted/password/ok$', 
+        'django.contrib.auth.views.password_change_done', {}, 
+        name='password_change_done'),
 
 3. Run 'python manage.py syncdb' to create revuo models
 

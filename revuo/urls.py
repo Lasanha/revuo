@@ -27,13 +27,7 @@ urlpatterns = patterns('',
     url(r'^restricted/trasher/(?P<category>[VNBP])/(?P<item_id>\d+)$', 
         TrashItem.as_view()),
 
-    # password change
-    url(r'^restricted/password/change$', 
-        'django.contrib.auth.views.password_change',
-        name='password_change'),
-    url(r'^restricted/password/ok$', 
-        'django.contrib.auth.views.password_change_done', {}, 
-        name='password_change_done'),
+
     url(r'login/', 'django.contrib.auth.views.login', name='login'),
     url(r'logout/', 'django.contrib.auth.views.logout', 
         {'next_page':'/'},
