@@ -7,6 +7,13 @@ Revuo is a simple CMS app for Django.
 News
 ----
 
+Version 0.2.1 -
+* test updates, passing with django 1.7
+
+Version 0.2 -
+* using summernote wysiwyg editor
+* removing Video items, because it easy to embed them on news or posts
+
 Version 0.1.1 -
 * styling pages
 * static handling
