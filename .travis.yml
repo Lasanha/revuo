@@ -14,6 +14,7 @@ before_script:
 - firefox &
 - sleep 3
 script:
+- python manage.py collectstatic --noinput
 - coverage run --source=revuo,portal manage.py test revuo
 after_success:
 - coveralls
