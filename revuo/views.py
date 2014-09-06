@@ -18,12 +18,13 @@ class Home(View):
 
 class ItemList(View):
     categories = {'news': NewsItem, 'blog': BlogItem, 'publications': Publication}
+    category = None
 
-    def get(self, request, category):
-        Item = self.categories[category]
+    def get(self, request):
+        Item = self.categories[self.category]
         item_list = Item.objects.filter(authorized=True)
         ordered = item_list.order_by('-created_at')[:10]
-        template = 'revuo/{}.html'.format(category)
+        template = 'revuo/{}.html'.format(self.category)
         return render(request, template, {'items_list':ordered})
 
 
@@ -64,18 +65,19 @@ class StaffView(View):
 class NewItem(View):
     template_name = 'revuo/new_item.html'
     categories = {'N': FormNewsItem, 'B': FormBlogItem, 'P': FormPublication}
+    category = None
 
     @method_decorator(login_required)
-    def get(self, request, category):
-        FormItem = self.categories[category]
+    def get(self, request):
+        FormItem = self.categories[self.category]
         form = FormItem()
         return render(request, self.template_name, {'form': form},
             context_instance=RequestContext(request))
 
 
     @method_decorator(login_required)
-    def post(self, request, category):
-        FormItem = self.categories[category]
+    def post(self, request):
+        FormItem = self.categories[self.category]
         form = FormItem(request.POST, request.FILES)
         if form.is_valid():
             author = Author.objects.get(user=request.user)

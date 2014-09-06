@@ -23,32 +23,32 @@
             </div>
             <div class="collapse navbar-collapse">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Home</a></li>
-                <li><a href="/news">News</a></li>
-                <li><a href="/blog">Blog</a></li>
-                <li><a href="/publications">Publications</a></li>
-                <li><a href="/staff">Staff</a></li>
+                <li class="active"><a href="{% url 'revuo:home' %}">Home</a></li>
+                <li><a href="{% url 'revuo:news' %}">News</a></li>
+                <li><a href="{% url 'revuo:blog' %}">Blog</a></li>
+                <li><a href="{% url 'revuo:publications' %}">Publications</a></li>
+                <li><a href="{% url 'revuo:staff' %}">Staff</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Restricted <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         {% if user.is_authenticated %}
                             <li class="dropdown-header">Create</li>
-                            <li><a href="/restricted/N/add">News</a></li>
-                            <li><a href="/restricted/B/add">Blog Post</a></li>
-                            <li><a href="/restricted/P/add">Publication</a></li>
+                            <li><a href="{% url 'revuo:add_news' %}">News</a></li>
+                            <li><a href="{% url 'revuo:add_blog' %}">Blog Post</a></li>
+                            <li><a href="{% url 'revuo:add_publication' %}">Publication</a></li>
                             <li class="divider"></li>
                             <li class="dropdown-header">User</li>
-                            <li><a href="/restricted/editprofile">Edit Profile</a></li>
-                            <li><a href="/restricted/password/change">Change Password</a></li>
+                            <li><a href="{% url 'revuo:edit_profile' %}">Edit Profile</a></li>
+                            <li><a href="{% url 'revuo:password_change' %}">Change Password</a></li>
                             {% if user.author.editor %}
                             <li class="divider"></li>
                             <li class="dropdown-header">Moderation</li>
-                            <li><a href="/restricted/publisher">Pending Items</a></li>
+                            <li><a href="{% url 'revuo:publisher' %}">Pending Items</a></li>
                             {% endif %}
                             <li class="divider"></li>
-                            <li><a href="/logout">Logout</a></li>
+                            <li><a href="{% url 'revuo:logout' %}">Logout</a></li>
                         {% else %}
-                            <li><a href="/login">Login</a></li>
+                            <li><a href="{% url 'revuo:login' %}">Login</a></li>
                         {% endif %}
                     </ul>
                 </li>

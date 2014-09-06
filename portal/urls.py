@@ -7,7 +7,8 @@ admin.autodiscover()
 from revuo.urls import urlpatterns as revuo_patterns
 
 urlpatterns = patterns('',
-    url(r'', include(revuo_patterns)),
+    url(r'', include(revuo_patterns, namespace='revuo')),
+    url(r'^summernote/', include('django_summernote.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 )

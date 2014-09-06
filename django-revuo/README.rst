@@ -31,13 +31,14 @@ Quick start
         'revuo',
     }
 
-2. Import and include revuo urls in your urls.py like this:
+2. Import and include revuo and summernote urls in your urls.py like this:
 
     from revuo.urls import urlpatterns as revuo_patterns
 
     ...
 
     url(r'', include(revuo_patterns)),
+    url(r'^summernote/', include('django_summernote.urls')),
 
 3. Run 'python manage.py syncdb' to create revuo models
 
