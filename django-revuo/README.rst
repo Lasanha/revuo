@@ -15,20 +15,23 @@ Version 0.2 -
 * removing Video items, because it easy to embed them on news or posts
 
 Version 0.1.1 -
+
 * styling pages
 * static handling
 
 Version 0.1 - 
+
 basic, first version
 
 Quick start
 -----------
 
-1. Add 'revuo' to your INSTALLED_APPS settings like this:
+1. Add revuo and summernote to your INSTALLED_APPS settings like this:
 
     INSTALLED_APPS = {
         ...
         'revuo',
+        'django_summernote',
     }
 
 2. Import and include revuo and summernote urls in your urls.py like this:

@@ -10,6 +10,9 @@ setup(
     version='0.2.1',
     packages=['revuo'],
     include_package_data=True,
+    install_requires=[
+        'django-summernote',
+    ],
     license='BSD License',
     description='Simple CMS django app',
     long_description=README,
