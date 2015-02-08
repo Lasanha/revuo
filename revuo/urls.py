@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
 
 from revuo.views import Home, Staff, StaffView
 from revuo.views import ItemList, ItemView, NewItem
