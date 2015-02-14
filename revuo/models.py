@@ -8,7 +8,7 @@ class Author(models.Model):
     about = models.TextField(max_length=1024)
 
 
-    def __unicode__(self):
+    def __str__(self):
         return ' '.join([self.user.first_name, self.user.last_name])
 
 
@@ -20,7 +20,7 @@ class Admin(models.Model):
     user = models.OneToOneField(User)
 
 
-    def __unicode__(self):
+    def __str__(self):
         return ' '.join([self.user.first_name, self.user.last_name])
 
 
@@ -38,7 +38,7 @@ class NewsItem(models.Model):
         self.authorized = True
 
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 
@@ -60,7 +60,7 @@ class BlogItem(models.Model):
         self.authorized = True
 
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 
@@ -90,5 +90,5 @@ class Publication(models.Model):
         return '/P/{}'.format(self.id)
 
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
