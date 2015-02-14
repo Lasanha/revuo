@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -13,7 +14,7 @@ class Author(models.Model):
 
 
     def get_url(self):
-        return '/staff/{}'.format(self.id)
+        return reverse('staff_view', self.id)
 
 
 class Admin(models.Model):
@@ -43,7 +44,7 @@ class NewsItem(models.Model):
 
 
     def get_url(self):
-        return '/N/{}'.format(self.id)
+        return reverse('item_view', 'N', self.id)
 
 
 class BlogItem(models.Model):
@@ -65,7 +66,7 @@ class BlogItem(models.Model):
 
 
     def get_url(self):
-        return '/B/{}'.format(self.id)
+        return reverse('item_view', 'B', self.id)
 
 
 def publication_destination(instance, filename):
@@ -87,7 +88,7 @@ class Publication(models.Model):
 
 
     def get_url(self):
-        return '/P/{}'.format(self.id)
+        return reverse('item_view', 'P', self.id)
 
 
     def __str__(self):

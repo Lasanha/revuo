@@ -4,6 +4,7 @@ from model_mommy import mommy
 from revuo.models import Author, Admin, NewsItem, BlogItem, Publication
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from django.core.urlresolvers import reverse
 from time import sleep
 import os
 
@@ -35,7 +36,7 @@ class PortalTest(LiveServerTestCase):
         """
         home page test at /
         """
-        self.browser.get(self.live_server_url + '/')
+        self.browser.get(self.live_server_url + reverse('revuo:home'))
         self.assertIn('Home', self.browser.title)
 
 
@@ -46,7 +47,7 @@ class PortalTest(LiveServerTestCase):
         # create some news
         mommy.make(NewsItem, authorized=True, _quantity=10)
         # then check the page
-        self.browser.get(self.live_server_url + '/news')
+        self.browser.get(self.live_server_url + reverse('revuo:news'))
         self.assertIn('News', self.browser.title)
         news_list = self.browser.find_element_by_name('news_list')
         news_item = self.browser.find_element_by_tag_name('li')
@@ -54,21 +55,21 @@ class PortalTest(LiveServerTestCase):
         self.assertIsNotNone(news_item)
         # news view
         news = mommy.make(NewsItem, authorized=True)
-        self.browser.get(self.live_server_url + '/N/' + str(news.id))
+        self.browser.get(self.live_server_url + news.get_url())
         self.assertIn(news.title, self.browser.title)
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn(news.description, body.text)
         self.assertIn(news.text, body.text)
         # create a new one via form
         # enter credentials
-        self.browser.get(self.live_server_url + '/login')
+        self.browser.get(self.live_server_url + reverse('revuo:login'))
         user_field = self.browser.find_element_by_name('username')
         user_field.send_keys(self.username)
         pass_field = self.browser.find_element_by_name('password')
         pass_field.send_keys(self.userpass)
         pass_field.submit()
         # go to form
-        self.browser.get(self.live_server_url + '/restricted/N/add')
+        self.browser.get(self.live_server_url + reverse('revuo:add_news'))
         title_field = self.browser.find_element_by_name('title')
         title_field.send_keys('news item')
         # switch to editor frame
@@ -95,7 +96,7 @@ class PortalTest(LiveServerTestCase):
         # create publications
         mommy.make(Publication, authorized=True, _quantity=10)
         # check page
-        self.browser.get(self.live_server_url + '/publications')
+        self.browser.get(self.live_server_url + reverse('revuo:publications'))
         self.assertIn('Publications', self.browser.title)
         pubs_list = self.browser.find_element_by_name('pubs_list')
         pubs_item = self.browser.find_element_by_tag_name('li')
@@ -103,14 +104,14 @@ class PortalTest(LiveServerTestCase):
         self.assertIsNotNone(pubs_item)
         # create a new one via form
         # enter credentials
-        self.browser.get(self.live_server_url + '/login')
+        self.browser.get(self.live_server_url + reverse('revuo:login'))
         user_field = self.browser.find_element_by_name('username')
         user_field.send_keys(self.username)
         pass_field = self.browser.find_element_by_name('password')
         pass_field.send_keys(self.userpass)
         pass_field.submit()
         # go to form
-        self.browser.get(self.live_server_url + '/restricted/P/add')
+        self.browser.get(self.live_server_url + reverse('revuo:add_publication'))
         title_field = self.browser.find_element_by_name('title')
         title_field.send_keys('publication')
         desc_field = self.browser.find_element_by_name('description')
@@ -131,7 +132,7 @@ class PortalTest(LiveServerTestCase):
         # create some media
         mommy.make(BlogItem, authorized=True, _quantity=10)
         # aaaand check page
-        self.browser.get(self.live_server_url + '/blog')
+        self.browser.get(self.live_server_url + reverse('revuo:blog'))
         self.assertIn('Blog', self.browser.title)
         posts_list = self.browser.find_element_by_name('post_list')
         posts_item = self.browser.find_element_by_tag_name('li')
@@ -139,21 +140,21 @@ class PortalTest(LiveServerTestCase):
         self.assertIsNotNone(posts_item)
         # post view
         post = mommy.make(BlogItem, authorized=True)
-        self.browser.get(self.live_server_url + '/B/' + str(post.id))
+        self.browser.get(self.live_server_url + post.get_url())
         self.assertIn(post.title, self.browser.title)
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn(post.description, body.text)
         self.assertIn(post.text, body.text)
         # create a new one via form
         # enter credentials
-        self.browser.get(self.live_server_url + '/login')
+        self.browser.get(self.live_server_url + reverse('revuo:login'))
         user_field = self.browser.find_element_by_name('username')
         user_field.send_keys(self.username)
         pass_field = self.browser.find_element_by_name('password')
         pass_field.send_keys(self.userpass)
         pass_field.submit()
         # go to form
-        self.browser.get(self.live_server_url + '/restricted/B/add')
+        self.browser.get(self.live_server_url + reverse('revuo:add_blog'))
         title_field = self.browser.find_element_by_name('title')
         title_field.send_keys('blog item')
         # switch to editor frame
@@ -179,31 +180,31 @@ class PortalTest(LiveServerTestCase):
         # create some users
         mommy.make(Author, _quantity=10)
         # aaaand check page
-        self.browser.get(self.live_server_url + '/staff')
+        self.browser.get(self.live_server_url + reverse('revuo:staff'))
         self.assertIn('Staff', self.browser.title)
         authors_list = self.browser.find_element_by_name('authors_list')
         authors_item = self.browser.find_element_by_tag_name('li')
         self.assertIsNotNone(authors_list)
         self.assertIsNotNone(authors_item)
         # staff view
-        self.browser.get(self.live_server_url + '/staff/' + str(self.author.id))
+        self.browser.get(self.live_server_url + self.author.get_url())
         self.assertIn(self.author.user.first_name, self.browser.title)
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn(self.author.about, body.text)
         # enter credentials
-        self.browser.get(self.live_server_url + '/login')
+        self.browser.get(self.live_server_url + reverse('revuo:login'))
         user_field = self.browser.find_element_by_name('username')
         user_field.send_keys(self.username)
         pass_field = self.browser.find_element_by_name('password')
         pass_field.send_keys(self.userpass)
         pass_field.submit()
         # go to form
-        self.browser.get(self.live_server_url + '/restricted/editprofile')
+        self.browser.get(self.live_server_url + reverse('revuo:edit_profile'))
         about_field = self.browser.find_element_by_name('about')
         about_field.send_keys('new about')
         about_field.submit()
         # go to staff view and look for new about
-        self.browser.get(self.live_server_url + '/staff/' + str(self.author.id))
+        self.browser.get(self.live_server_url + self.author.get_url())
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('new about', body.text)
         # change password
@@ -227,14 +228,14 @@ class PortalTest(LiveServerTestCase):
         news = mommy.make(NewsItem, authorized=False)
         post = mommy.make(BlogItem, authorized=False)
         # login
-        self.browser.get(self.live_server_url + '/login')
+        self.browser.get(self.live_server_url + reverse('revuo:login'))
         user_field = self.browser.find_element_by_name('username')
         user_field.send_keys(self.username)
         pass_field = self.browser.find_element_by_name('password')
         pass_field.send_keys(self.userpass)
         pass_field.submit()
         # go to publisher page, redirects to login
-        self.browser.get(self.live_server_url + '/restricted/publisher')
+        self.browser.get(self.live_server_url + reverse('revuo:publisher'))
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Username', body.text)
         # editor logs in
@@ -244,7 +245,7 @@ class PortalTest(LiveServerTestCase):
         pass_field.send_keys(self.userpass)
         pass_field.submit()
         # go to publisher page, should see Pending Items
-        self.browser.get(self.live_server_url + '/restricted/publisher')
+        self.browser.get(self.live_server_url + reverse('revuo:publisher'))
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn(news.title, body.text)
         self.assertIn(post.title, body.text)
@@ -278,7 +279,7 @@ class PortalTest(LiveServerTestCase):
         """
         login page test at /login
         """
-        self.browser.get(self.live_server_url + '/login')
+        self.browser.get(self.live_server_url + reverse('revuo:login'))
         self.assertIn('Login', self.browser.title)
         # enter credentials
         user_field = self.browser.find_element_by_name('username')
@@ -299,7 +300,7 @@ class BackendTest(TestCase):
         author = mommy.make(Author)
         self.assertTrue(isinstance(author, Author))
         self.assertEqual(
-            author.__unicode__(), 
+            author.__str__(),
             ' '.join([author.user.first_name, author.user.last_name])
             )
 
@@ -311,7 +312,7 @@ class BackendTest(TestCase):
         admin = mommy.make(Admin)
         self.assertTrue(isinstance(admin, Admin))
         self.assertEqual(
-            admin.__unicode__(), 
+            admin.__str__(),
             ' '.join([admin.user.first_name, admin.user.last_name])
             )
 
