@@ -259,7 +259,7 @@ class PortalTest(LiveServerTestCase):
         # wait deletion
         sleep(3)
         # assert object was deleted
-        news = NewsItem.objects.filter(id=news.id)
+        news = NewsItem.objects.filter(id=news.id, deleted=False)
         self.assertFalse(news)
 
         # authorize this
