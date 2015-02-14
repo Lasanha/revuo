@@ -12,7 +12,7 @@ coverage==3.7.1
 coveralls==0.5
 dj-database-url==0.3.0
 dj-static==0.0.6
-django-storages==1.1.8
+django-storages-redux==1.2.2
 django-summernote==0.6.3
 django-toolbelt==0.0.1
 docopt==0.6.2

@@ -1,3 +1,4 @@
+#!/bin/sh
 # copy revuo code here
 cp -r ../revuo revuo
 
