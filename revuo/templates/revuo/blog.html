@@ -8,7 +8,7 @@
         <h1>Blog</h1>
         <ul name='post_list'>
         {% for post in items_list %}
-            <li><a href="{{ post.get_url }}">{{ post.title }}</a></li>
+            <li><a href="{% url 'revuo:item_view' 'B' post.id }}">{{ post.title }}</a></li>
         {% endfor %}
         </ul>
     </div>

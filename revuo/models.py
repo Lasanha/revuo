@@ -14,7 +14,7 @@ class Author(models.Model):
 
 
     def get_url(self):
-        return reverse('staff_view', self.id)
+        return reverse('revuo:staff_view', kwargs={'staff_id': str(self.id)})
 
 
 class Admin(models.Model):
@@ -44,7 +44,7 @@ class NewsItem(models.Model):
 
 
     def get_url(self):
-        return reverse('item_view', 'N', self.id)
+        return reverse('revuo:item_view', kwargs={'category': 'N', 'item_id': str(self.id)})
 
 
 class BlogItem(models.Model):
@@ -66,7 +66,7 @@ class BlogItem(models.Model):
 
 
     def get_url(self):
-        return reverse('item_view', 'B', self.id)
+        return reverse('revuo:item_view', kwargs={'category': 'B', 'item_id': str(self.id)})
 
 
 def publication_destination(instance, filename):
@@ -88,7 +88,7 @@ class Publication(models.Model):
 
 
     def get_url(self):
-        return reverse('item_view', 'P', self.id)
+        return reverse('revuo:item_view', kwargs={'category': 'P', 'item_id': str(self.id)})
 
 
     def __str__(self):

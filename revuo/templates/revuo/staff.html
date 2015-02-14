@@ -8,7 +8,7 @@
         <h1>Staff</h1>
         <ul name='authors_list'>
         {% for author in authors_list %}
-            <li><a href="{{ author.get_url }}">{{ author }}</a></li>
+            <li><a href="{% url 'revuo:staff_view' author.id %}">{{ author }}</a></li>
         {% endfor %}
         </ul>
     </div>

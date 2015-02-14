@@ -5,7 +5,7 @@
 {% block item_body %}
     <div class="blog-item-panel base-panel">
         <h1>{{ item.title }}</h1>
-        <p>{{ item.published_at }} by <a href="{{ item.author.get_url }}">{{ item.author }}</a></p>
+        <p>{{ item.published_at }} by <a href="{% url 'revuo:staff_view' item.author.id %}">{{ item.author }}</a></p>
         <p class="lead">{{ item.description }}</p>
         {{ item.text|safe }}
     </div>
