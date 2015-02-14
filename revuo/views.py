@@ -22,7 +22,7 @@ class ItemList(View):
 
     def get(self, request):
         Item = self.categories[self.category]
-        item_list = Item.objects.filter(authorized=True)
+        item_list = Item.objects.filter(authorized=True, deleted=False)
         ordered = item_list.order_by('-created_at')[:10]
         template = 'revuo/{}.html'.format(self.category)
         return render(request, template, {'items_list':ordered})
@@ -34,9 +34,9 @@ class ItemView(View):
     def get(self, request, category, item_id):
         Item = self.categories[category]
         if request.user.is_authenticated():
-            item = get_object_or_404(Item, id=item_id)
+            item = get_object_or_404(Item, id=item_id, deleted=False)
         else:
-            item = get_object_or_404(Item, id=item_id, authorized=True)
+            item = get_object_or_404(Item, id=item_id, authorized=True, deleted=False)
         template = 'revuo/{}_item.html'.format(category)
         return render(request, template, {'item':item, 'category':category})
 
@@ -99,6 +99,60 @@ def editor_test(user):
     return Author.objects.get(user=user).editor
 
 
+class ItemEdit(View):
+    template_name = 'revuo/edit_item.html'
+    categories = {'N': FormNewsItem, 'B': FormBlogItem, 'P': FormPublication}
+    classes = {'N': NewsItem, 'B': BlogItem, 'P': Publication}
+    category = None
+
+    @method_decorator(login_required)
+    def get(self, request, category, item_id):
+        Item = self.classes[category]
+        FormItem = self.categories[category]
+        instance = get_object_or_404(Item, id=item_id, deleted=False, author=request.user.author)
+        form = FormItem(instance=instance)
+        return render(request, self.template_name, {'form': form},
+            context_instance=RequestContext(request))
+
+
+    @method_decorator(login_required)
+    def post(self, request, category, item_id):
+        Item = self.classes[category]
+        FormItem = self.categories[category]
+        instance = get_object_or_404(Item, id=item_id, deleted=False, author=request.user.author)
+        form = FormItem(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect(form.instance.get_url())
+        return render(request, self.template_name, {'form': form},
+            context_instance=RequestContext(request))
+
+
+class Dashboard(View):
+    template_name = 'revuo/dashboard.html'
+
+    """
+    list/search for bulk action on items
+    """
+    @method_decorator(login_required)
+    def get(self, request):
+        news = NewsItem.objects.order_by('-created_at').filter(deleted=False)
+        posts = BlogItem.objects.order_by('-created_at').filter(deleted=False)
+        pubs = Publication.objects.order_by('-created_at').filter(deleted=False)
+        if not request.user.author.editor:
+            news = news.filter(author=request.user.author)
+            posts = posts.filter(author=request.user.author)
+            pubs = pubs.filter(author=request.user.author)
+
+        sections = [
+            {'section': 'News', 'items': list(news)},
+            {'section': 'Blog Posts', 'items': list(posts)},
+            {'section': 'Publications', 'items': list(pubs)},
+        ]
+        return render(request, self.template_name, {'sections': sections},
+            context_instance=RequestContext(request))
+
+
 class Publisher(View):
     template_name = 'revuo/publisher.html'
 
@@ -108,9 +162,9 @@ class Publisher(View):
     @method_decorator(login_required)
     @method_decorator(user_passes_test(editor_test))
     def get(self, request):
-        news = NewsItem.objects.filter(authorized=False)
-        posts = BlogItem.objects.filter(authorized=False)
-        pubs = Publication.objects.filter(authorized=False)
+        news = NewsItem.objects.filter(authorized=False, deleted=False)
+        posts = BlogItem.objects.filter(authorized=False, deleted=False)
+        pubs = Publication.objects.filter(authorized=False, deleted=False)
         items_list = list(news) + list(posts) + list(pubs)
         return render(request, self.template_name, {'items_list':items_list},
             context_instance=RequestContext(request))
@@ -124,10 +178,27 @@ class PublishItem(View):
     def get(self, request, category, item_id):
         if request.is_ajax():
             Item = self.categories[category]
-            item = get_object_or_404(Item, id=int(item_id))
+            item = get_object_or_404(Item, id=int(item_id), deleted=False)
             item.authorize()
             item.save()
             result = {'msg': 'Item Published'}
+        else:
+            return HttpResponseForbidden("FORBIDDEN")
+        return HttpResponse(json.dumps(result), content_type='application/json')
+
+
+class SuspendItem(View):
+    categories = {'N': NewsItem, 'B': BlogItem, 'P': Publication}
+
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(editor_test))
+    def get(self, request, category, item_id):
+        if request.is_ajax():
+            Item = self.categories[category]
+            item = get_object_or_404(Item, id=int(item_id), deleted=False)
+            item.suspend()
+            item.save()
+            result = {'msg': 'Item Suspended'}
         else:
             return HttpResponseForbidden("FORBIDDEN")
         return HttpResponse(json.dumps(result), content_type='application/json')
@@ -141,8 +212,9 @@ class TrashItem(View):
     def get(self, request, category, item_id):
         if request.is_ajax():
             Item = self.categories[category]
-            item = get_object_or_404(Item, id=int(item_id))
-            item.delete()
+            item = get_object_or_404(Item, id=int(item_id), deleted=False)
+            item.deleted = True
+            item.save()
             result = {'msg': 'Item Deleted'}
         else:
             return HttpResponseForbidden("FORBIDDEN")

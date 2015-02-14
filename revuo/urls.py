@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, url
 
 from revuo.views import Home, Staff, StaffView
-from revuo.views import ItemList, ItemView, NewItem
-from revuo.views import EditProfile, Publisher, PublishItem, TrashItem
+from revuo.views import ItemList, ItemView, NewItem, ItemEdit
+from revuo.views import EditProfile, Publisher, PublishItem, SuspendItem, TrashItem, Dashboard
 
 urlpatterns = patterns('',
     url(r'^$', Home.as_view(), name='home'),
@@ -15,10 +15,13 @@ urlpatterns = patterns('',
     url(r'^restricted/N/add$', NewItem.as_view(category='N'), name='add_news'),
     url(r'^restricted/B/add$', NewItem.as_view(category='B'), name='add_blog'),
     url(r'^restricted/P/add$', NewItem.as_view(category='P'), name='add_publication'),
+    url(r'^restricted/edit/(?P<category>[NBP])/(?P<item_id>\d+)$', ItemEdit.as_view(), name='item_edit'),
     url(r'^restricted/editprofile$', EditProfile.as_view(), name='edit_profile'),
     url(r'^restricted/publisher$', Publisher.as_view(), name='publisher'),
-    url(r'^restricted/publisher/(?P<category>[VNBP])/(?P<item_id>\d+)$', PublishItem.as_view(), name='publish_item'),
-    url(r'^restricted/trasher/(?P<category>[VNBP])/(?P<item_id>\d+)$', TrashItem.as_view(), name='trash_item'),
+    url(r'^restricted/publisher/(?P<category>[NBP])/(?P<item_id>\d+)$', PublishItem.as_view(), name='publish_item'),
+    url(r'^restricted/suspender/(?P<category>[NBP])/(?P<item_id>\d+)$', SuspendItem.as_view(), name='suspend_item'),
+    url(r'^restricted/dashboard$', Dashboard.as_view(), name='dashboard'),
+    url(r'^restricted/trasher/(?P<category>[NBP])/(?P<item_id>\d+)$', TrashItem.as_view(), name='trash_item'),
 
     url(r'login/', 'django.contrib.auth.views.login', name='login'),
     url(r'logout/', 'django.contrib.auth.views.logout', {'next_page':'/'}, name='logout'),

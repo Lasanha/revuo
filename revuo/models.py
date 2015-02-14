@@ -29,6 +29,7 @@ class NewsItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateTimeField(auto_now=True)
     authorized = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
     author = models.ForeignKey('Author')
     title = models.TextField(max_length=140)
     description = models.TextField(max_length=280)
@@ -37,6 +38,10 @@ class NewsItem(models.Model):
 
     def authorize(self):
         self.authorized = True
+
+
+    def suspend(self):
+        self.authorized = False
 
 
     def __str__(self):
@@ -47,10 +52,15 @@ class NewsItem(models.Model):
         return reverse('revuo:item_view', kwargs={'category': 'N', 'item_id': str(self.id)})
 
 
+    def get_category(self):
+        return 'N'
+
+
 class BlogItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateTimeField(auto_now=True)
     authorized = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
     author = models.ForeignKey('Author')
     title = models.TextField(max_length=140)
     description = models.TextField(max_length=280)
@@ -61,12 +71,20 @@ class BlogItem(models.Model):
         self.authorized = True
 
 
+    def suspend(self):
+        self.authorized = False
+
+
     def __str__(self):
         return self.title
 
 
     def get_url(self):
         return reverse('revuo:item_view', kwargs={'category': 'B', 'item_id': str(self.id)})
+
+
+    def get_category(self):
+        return 'B'
 
 
 def publication_destination(instance, filename):
@@ -77,6 +95,7 @@ class Publication(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateTimeField(auto_now=True)
     authorized = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
     author = models.ForeignKey('Author')
     title = models.TextField(max_length=140)
     description = models.TextField(max_length=280)
@@ -87,9 +106,17 @@ class Publication(models.Model):
         self.authorized = True
 
 
+    def suspend(self):
+        self.authorized = False
+
+
     def get_url(self):
         return reverse('revuo:item_view', kwargs={'category': 'P', 'item_id': str(self.id)})
 
 
     def __str__(self):
         return self.title
+
+
+    def get_category(self):
+        return 'P'
