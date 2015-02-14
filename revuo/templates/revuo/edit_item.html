@@ -1,6 +1,7 @@
 {% extends "revuo/base.html" %}
 
 {% block title %}Edit Item{% endblock %}
+{% block restrict_active %}active{% endblock %}
 
 {% block page_body %}
 <div class="container">
@@ -10,14 +11,12 @@
         {{ form.non_field_errors }}
     {% endif %}
 
-    <p>
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Submit</button>
         <input type="hidden" name="next" value="/" />
     </form>
-    </p>
 
     </div>
 </div>
