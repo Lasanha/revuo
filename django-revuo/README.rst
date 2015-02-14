@@ -7,6 +7,10 @@ Revuo is a simple CMS app for Django.
 News
 ----
 
+Version 0.3 -
+* python 3 migration
+* coding style improvements
+
 Version 0.2.1 -
 * test updates, passing with django 1.7
 
@@ -54,6 +58,6 @@ Quick start
         'django.contrib.auth.views.password_change_done', {}, 
         name='password_change_done'),
 
-3. Run 'python manage.py syncdb' to create revuo models
+3. Run 'python manage.py migrate' to create revuo models
 
 4. Start the server
