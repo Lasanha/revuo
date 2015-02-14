@@ -8,7 +8,7 @@
         <h1>News</h1>
         <ul name='news_list'>
         {% for news in items_list %}
-            <li><a href="{% url 'revuo:item_view' 'N' news.id }}">{{ news.title }}</a></li>
+            <li><a href="{% url 'revuo:item_view' 'N' news.id %}">{{ news.title }}</a></li>
         {% endfor %}
         </ul>
     </div>
