@@ -9,7 +9,12 @@
         <h1>Publications</h1>
         <ul name='pubs_list'>
         {% for pub in items_list %}
-            <li><a href="{% url 'revuo:item_view' 'P' pub.id %}">{{ pub.title }}</a></li>
+            <li>
+                <h3><a href="{% url 'revuo:item_view' 'P' pub.id %}">{{ pub.title }}</a></h3><br>
+                <span><i>by {{ pub.author }} on {{ pub.created_at }}</i></span>
+                <hr>
+            </li>
+
         {% endfor %}
         </ul>
     </div>

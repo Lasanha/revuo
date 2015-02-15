@@ -9,7 +9,11 @@
         <h1>Blog</h1>
         <ul name='post_list'>
         {% for post in items_list %}
-            <li><a href="{% url 'revuo:item_view' 'B' post.id %}">{{ post.title }}</a></li>
+            <li>
+                <h3><a href="{% url 'revuo:item_view' 'B' post.id %}">{{ post.title }}</a></h3><br>
+                <span><i>by {{ post.author }} on {{ post.created_at }}</i></span>
+                <hr>
+            </li>
         {% endfor %}
         </ul>
     </div>

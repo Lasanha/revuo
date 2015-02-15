@@ -9,7 +9,11 @@
         <h1>News</h1>
         <ul name='news_list'>
         {% for news in items_list %}
-            <li><a href="{% url 'revuo:item_view' 'N' news.id %}">{{ news.title }}</a></li>
+            <li>
+                <h3><a href="{% url 'revuo:item_view' 'N' news.id %}">{{ news.title }}</a></h3><br>
+                <span><i>by {{ news.author }} on {{ news.created_at }}</i></span>
+                <hr>
+            </li>
         {% endfor %}
         </ul>
     </div>
