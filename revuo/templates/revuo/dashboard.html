@@ -9,7 +9,23 @@
     <h1>Dashboard</h1>
 
     {% for section in sections %}
-        <h2>{{ section.section }}</h2>
+        <div class="row-fluid"><br>
+            <h4><span>{{ section.section }}</span>
+                <span style="float:right;">
+                    {% if multipage_info.has_previous %}
+                        <a href="?page={{ multipage_info.previous_page }}" class="btn btn-default">
+                            <span class="glyphicon glyphicon-chevron-left"></span></a>
+                    {% endif %}
+
+                    Page {{ multipage_info.current }} / {{ multipage_info.num_pages }}
+
+                    {% if multipage_info.has_next %}
+                        <a href="?page={{ multipage_info.next_page }}" class="btn btn-default">
+                            <span class="glyphicon glyphicon-chevron-right"></span></a>
+                    {% endif %}
+                </span>
+            </h4>
+        </div>
         <div class="row-fluid"><br>
             <div class="span10">
                 <table class="table table-striped tabled-bordered">
@@ -29,28 +45,31 @@
                                 <td>{{ item.authorized }}</td>
                                 <td>
                                     {% if user.author.editor %}
-                                        {% if not item.authorized %}
-                                            <button type="button" class="btn btn-default" aria-label="Approve Item"
-                                                onclick="auth_item('{{ item.get_category }}', '{{ item.id }}')">
-                                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                            </button>
-                                        {% else %}
-                                            <button type="button" class="btn btn-default" aria-label="Suspend Item"
-                                                onclick="suspend_item('{{ item.get_category }}', '{{ item.id }}')">
-                                                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                                            </button>
-                                        {% endif %}
+                                        <button type="button" class="btn btn-default" aria-label="Approve Item"
+                                                title="Approve"
+                                            {% if item.authorized %}disabled{% endif %}
+                                            onclick="auth_item('{{ item.get_category }}', '{{ item.id }}')">
+                                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-default" aria-label="Suspend Item"
+                                                title="Suspend"
+                                            {% if not item.authorized %}disabled{% endif %}
+                                            onclick="suspend_item('{{ item.get_category }}', '{{ item.id }}')">
+                                            <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                                        </button>
                                         <button type="button" class="btn btn-default" aria-label="Trash Item"
+                                                title="Delete"
+                                                {% if item.authorized %}disabled{% endif %}
                                                 onclick="del_item('{{ item.get_category }}', '{{ item.id }}')">
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                         </button>
                                     {% endif %}
-                                    {% if item.author.user == user %}
-                                        <a class="btn btn-default"
-                                           href="{% url 'revuo:item_edit' item.get_category item.id %}">
-                                            <span class="glyphicon glyphicon-edit"></span>
-                                        </a>
-                                    {% endif %}
+                                    <a class="btn btn-default"
+                                        href="{% url 'revuo:item_edit' item.get_category item.id %}"
+                                        title="Edit"
+                                        {% if not item.author.user == user %}disabled{% endif %}>
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </a>
                                 </td>
                             </tr>
                         {% empty %}
@@ -62,6 +81,7 @@
                 </table>
             </div>
         </div>
+        <hr>
     {% endfor %}
     </div>
 </div>

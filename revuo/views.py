@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.template import RequestContext
@@ -144,12 +145,50 @@ class Dashboard(View):
             posts = posts.filter(author=request.user.author)
             pubs = pubs.filter(author=request.user.author)
 
+        news_paginator = Paginator(news, 10)
+        posts_paginator = Paginator(posts, 10)
+        pubs_paginator = Paginator(pubs, 10)
+        page = request.GET.get('page', 1)
+
+        try:
+            news = news_paginator.page(page)
+        except PageNotAnInteger:
+            news = news_paginator.page(1)
+        except EmptyPage:
+            news = news_paginator.page(news_paginator.num_pages)
+        try:
+            posts = posts_paginator.page(page)
+        except PageNotAnInteger:
+            posts = posts_paginator.page(1)
+        except EmptyPage:
+            posts = posts_paginator.page(posts_paginator.num_pages)
+        try:
+            pubs = pubs_paginator.page(page)
+        except PageNotAnInteger:
+            pubs = pubs_paginator.page(1)
+        except EmptyPage:
+            pubs = pubs_paginator.page(pubs_paginator.num_pages)
+
+        current_page = max(news.number, posts.number, pubs.number)
+        previous_page = current_page - 1
+        next_page = current_page + 1
+        num_pages = max(news.paginator.num_pages, posts.paginator.num_pages, pubs.paginator.num_pages)
+
+        multipage_info = {
+            'has_previous': previous_page > 0,
+            'previous_page': previous_page,
+            'has_next': current_page < num_pages,
+            'next_page': next_page,
+            'current': current_page,
+            'num_pages': num_pages,
+        }
+
         sections = [
-            {'section': 'News', 'items': list(news)},
-            {'section': 'Blog Posts', 'items': list(posts)},
-            {'section': 'Publications', 'items': list(pubs)},
+            {'section': 'News', 'items': news},
+            {'section': 'Blog Posts', 'items': posts},
+            {'section': 'Publications', 'items': pubs},
         ]
-        return render(request, self.template_name, {'sections': sections},
+        return render(request, self.template_name, {'sections': sections, 'multipage_info': multipage_info},
             context_instance=RequestContext(request))
 
 
