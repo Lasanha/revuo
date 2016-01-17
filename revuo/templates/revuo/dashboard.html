@@ -12,15 +12,15 @@
         <div class="row-fluid"><br>
             <h4><span>{{ section.section }}</span>
                 <span style="float:right;">
-                    {% if multipage_info.has_previous %}
-                        <a href="?page={{ multipage_info.previous_page }}" class="btn btn-default">
+                    {% if multi_page_info.has_previous %}
+                        <a href="?page={{ multi_page_info.previous_page }}" class="btn btn-default">
                             <span class="glyphicon glyphicon-chevron-left"></span></a>
                     {% endif %}
 
-                    Page {{ multipage_info.current }} / {{ multipage_info.num_pages }}
+                    Page {{ multi_page_info.current }} / {{ multi_page_info.num_pages }}
 
-                    {% if multipage_info.has_next %}
-                        <a href="?page={{ multipage_info.next_page }}" class="btn btn-default">
+                    {% if multi_page_info.has_next %}
+                        <a href="?page={{ multi_page_info.next_page }}" class="btn btn-default">
                             <span class="glyphicon glyphicon-chevron-right"></span></a>
                     {% endif %}
                 </span>
@@ -44,28 +44,29 @@
                                 <td><a href="{% url 'revuo:staff_view' item.author.id %}">{{ item.author }}</a></td>
                                 <td>{{ item.authorized }}</td>
                                 <td>
-                                    {% if user.author.editor %}
+
+                                    <!-- TODO: check editor rights -->
                                         <button type="button" class="btn btn-default" aria-label="Approve Item"
                                                 title="Approve"
                                             {% if item.authorized %}disabled{% endif %}
-                                            onclick="auth_item('{{ item.get_category }}', '{{ item.id }}')">
+                                            onclick="auth_item('{{ item.category }}', '{{ item.id }}')">
                                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                         </button>
                                         <button type="button" class="btn btn-default" aria-label="Suspend Item"
                                                 title="Suspend"
                                             {% if not item.authorized %}disabled{% endif %}
-                                            onclick="suspend_item('{{ item.get_category }}', '{{ item.id }}')">
+                                            onclick="suspend_item('{{ item.category }}', '{{ item.id }}')">
                                             <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
                                         </button>
                                         <button type="button" class="btn btn-default" aria-label="Trash Item"
                                                 title="Delete"
                                                 {% if item.authorized %}disabled{% endif %}
-                                                onclick="del_item('{{ item.get_category }}', '{{ item.id }}')">
+                                                onclick="del_item('{{ item.category }}', '{{ item.id }}')">
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                         </button>
-                                    {% endif %}
+
                                     <a class="btn btn-default"
-                                        href="{% url 'revuo:item_edit' item.get_category item.id %}"
+                                        href="{% url 'revuo:item_edit' item.category item.id %}"
                                         title="Edit"
                                         {% if not item.author.user == user %}disabled{% endif %}>
                                         <span class="glyphicon glyphicon-edit"></span>
