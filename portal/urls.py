@@ -6,7 +6,7 @@ from django.views.static import serve as static_serve
 from django_summernote import urls as summernote_urls
 
 from portal import settings
-from revuo.urls import urlpatterns as revuo_urls
+from revuo import urls as revuo_urls
 
 admin.autodiscover()
 
@@ -25,4 +25,6 @@ urlpatterns = [
 ]
 
 if not settings.DEBUG:
-    urlpatterns += [(r'^static/(?P<path>.*)$', static_serve, {'document_root': settings.STATIC_ROOT})]
+    urlpatterns += [
+        url(r'^static/(?P<path>.*)$', static_serve, {'document_root': settings.STATIC_ROOT})
+    ]
