@@ -1,10 +1,11 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
+from django.contrib.auth.views import login, logout
 
 from revuo.views import Home, Staff, StaffView
 from revuo.views import ItemList, ItemView, NewItem, ItemEdit
 from revuo.views import EditProfile, Publisher, PublishItem, SuspendItem, TrashItem, Dashboard
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', Home.as_view(), name='home'),
     url(r'^news$', ItemList.as_view(category='news'), name='news'),
     url(r'^blog$', ItemList.as_view(category='blog'), name='blog'),
@@ -23,7 +24,6 @@ urlpatterns = patterns('',
     url(r'^restricted/dashboard$', Dashboard.as_view(), name='dashboard'),
     url(r'^restricted/trasher/(?P<category>[NBP])/(?P<item_id>\d+)$', TrashItem.as_view(), name='trash_item'),
 
-    url(r'login/', 'django.contrib.auth.views.login', name='login'),
-    url(r'logout/', 'django.contrib.auth.views.logout', {'next_page':'/'}, name='logout'),
-
-)
+    url(r'login/', login, name='login'),
+    url(r'logout/', logout, {'next_page': '/'}, name='logout'),
+]
