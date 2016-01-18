@@ -6,7 +6,7 @@
 {% block page_body %}
 <div class="container">
     <div class="staff-member-panel base-panel">
-        <h1>{{ author.user.first_name }} {{ author.user.last_name }}</h1>
+        <h1>{{ author.user.get_full_name }}</h1>
         <p>{{ author.about|linebreaksbr }}</p>
     </div>
 </div>
