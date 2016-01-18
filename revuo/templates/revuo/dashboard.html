@@ -107,7 +107,7 @@
     }
 
     function del_item(item_category, item_id){
-        result = $.get("/restricted/trasher/" + item_category  + "/" + item_id,
+        result = $.get("/restricted/deleter/" + item_category  + "/" + item_id,
             function(data) {
                 document.location.reload();
             },

@@ -38,13 +38,10 @@
                             <li><a href="{% url 'revuo:add_publication' %}">Publication</a></li>
                             <li class="divider"></li>
                             <li class="dropdown-header">User</li>
-                            <li><a href="{% url 'revuo:edit_profile' %}">Edit Profile</a></li>
+                            <li><a href="{% url 'revuo:staff_edit' %}">Edit Profile</a></li>
                             <li><a href="{% url 'password_change' %}">Change Password</a></li>
                             <li class="divider"></li>
                             <li class="dropdown-header">Moderation</li>
-                            {% if user.author.editor %}
-                                <li><a href="{% url 'revuo:publisher' %}">Pending Items</a></li>
-                            {% endif %}
                             <li><a href="{% url 'revuo:dashboard' %}">Dashboard</a></li>
                             <li class="divider"></li>
                             <li><a href="{% url 'revuo:logout' %}">Logout</a></li>

@@ -17,7 +17,7 @@
         {% block item_body %}
         {% endblock %}
 
-        {% if user.is_authenticated and user.author.editor and not item.authorized %}
+        {% if user.is_authenticated and not item.authorized %}
             <div class="actions-panel base-panel">
                 <p>
                 <button type='button' class="btn btn-primary" name='authorize' onclick="auth_item()">Authorize</button>
@@ -40,7 +40,7 @@
             "json")
     }
     function del_item(){
-        result = $.get("/restricted/trasher{{ item.get_url }}",
+        result = $.get("/restricted/deleter{{ item.get_url }}",
             function(data) {
                 window.location.replace('/');
             },

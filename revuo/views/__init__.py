@@ -7,7 +7,6 @@ from .item_new import ItemNew
 from .item_publish import ItemPublish
 from .item_suspend import ItemSuspend
 from .item_view import ItemView
-from .publisher import Publisher
 from .staff_edit import StaffEdit
 from .staff_list import StaffList
 from .staff_view import StaffView

@@ -20,9 +20,9 @@ class Dashboard(View):
         pubs = Publication.objects.order_by('-created_at').filter(deleted=False)
 
         # TODO: check editor rights
-        news = news.filter(author=request.user.staff)
-        posts = posts.filter(author=request.user.staff)
-        pubs = pubs.filter(author=request.user.staff)
+        # news = news.filter(author=request.user.staff)
+        # posts = posts.filter(author=request.user.staff)
+        # pubs = pubs.filter(author=request.user.staff)
 
         news_paginator = Paginator(news, 10)
         posts_paginator = Paginator(posts, 10)
