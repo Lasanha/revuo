@@ -7,6 +7,9 @@ Revuo is a simple CMS app for Django.
 News
 ----
 
+Version 0.4 -
+* refactored models (not compatible with previous versions)
+
 Version 0.3 -
 * python 3 migration
 * coding style improvements
